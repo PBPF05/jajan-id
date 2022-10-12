@@ -1,62 +1,48 @@
-# Template Proyek Django PBP
+# VeryCoolNameHere
 
-Pemrograman Berbasis Platform (CSGE602022) - diselenggarakan oleh Fakultas Ilmu Komputer Universitas Indonesia, Semester Ganjil 2022/2023
+> Proyek ini dibuat untuk memenuhi tugas Proyek Tengah Semester (PTS) pada mata kuliah Pemrograman Berbasis Platform (CSGE602022) yang diselenggarakan oleh Fakultas Ilmu Komputer, Universitas Indonesia pada Semester Gasal, Tahun Ajaran 2022/2023.
 
-*Read this in other languages: [Indonesian](README.md), [English](README.en.md)*
+## Situs
+TODO: This
 
-## Pendahuluan
+## Latar Belakang
+Sejak pandemi Covid-19, ekonomi dunia menjadi tidak stabil. Terdapat banyak hal yang menjadi faktor, salah satunya adalah lockdown yang dilakukan, sehingga banyak aktor usaha yang terpaksa untuk menutup usahanya untuk melaksanakan protokol kesehatan. Indonesia juga terdampak dengan pandemi ini, sehingga tidak sedikit penjual kecil yang terdampak pada kondisi perekonomiannya.
 
-Repositori ini merupakan sebuah template yang dirancang untuk membantu mahasiswa yang sedang mengambil mata kuliah Pemrograman Berbasis Platform (CSGE602022) mengetahui struktur sebuah proyek aplikasi Django serta file dan konfigurasi yang penting dalam berjalannya aplikasi. Kamu dapat dengan bebas menyalin isi dari repositori ini atau memanfaatkan repositori ini sebagai pembelajaran sekaligus awalan dalam membuat sebuah proyek Django.
+Di masa pemulihan dari pandemi COVID-19 yang jauh lebih stabil, para pelaku ekonomi seperti penjual kecil masih memperjuangkan dagangannya untuk meningkatkan kondisi perekonomian. Dengan demikian, kami rasa penting untuk membuat platform yang mudah diakses untuk pedagang kecil, sehingga mereka dapat lebih diketahui oleh masyarakat sekitar, serta memperkuat semangat untuk terus berkreasi dan berinovasi dalam dagangannya. Tidak hanya itu, masyarakat sekitar juga dapat menyadari berbagai variasi dagangan yang ada di lingkungan sekitar. Hal ini berhubungan dengan motto G20 yang berbunyi "Recover Together Recover Stronger".
 
-## Cara Menggunakan
+## Pengembang
+Proyek ini dibuat oleh kelompok F05, yang terdiri dari:
 
-Apabila kamu ingin menggunakan repositori ini sebagai repositori awalan yang nantinya akan kamu modifikasi:
+- Audrey Zefanya Priyambodo (2106650443)
+- Divany Harryndira (2106701734)
+- Jeremy Mervin Juniandi Sitorus (2106654675)
+- Natasya Ashil Zhafirah (2106650090)
+- Rendy Arya Kemal (2106639945)
 
-1. Buka laman GitHub repositori templat kode, lalu klik tombol "**Use this template**"
-   untuk membuat salinan repositori ke dalam akun GitHub milikmu.
-2. Buka laman GitHub repositori yang dibuat dari templat, lalu gunakan perintah
-   `git clone` untuk menyalin repositorinya ke suatu lokasi di dalam sistem
-   berkas (_filesystem_) komputermu:
+## Daftar Modul
+1. Landing Page (Jeremy Mervin Juniandi Sitorus)
+   - Menampilkan halaman awal berupa login, register, dan logout.
+   
+2. Katalog toko (Natasya Ashil Zhafirah)
+   - Menampilkan halaman yang berisikan daftar toko yang dapat dilihat dan dipilih oleh user.
+   - Mengimplementasikan fitur pencarian toko
+   
+3. Detail toko (Audrey Zefanya Priyambodo)
+   - Menampilkan halaman dari salah satu card yang dipilih oleh user, berisikan detail dari toko tersebut.
+   - Menampilkan daftar barang yang dijual
+   
+4. Dashboard penjual (Divany Harryndira)
+   - Menampilkan halaman yang dapat dilihat oleh penjual untuk dapat menambah toko serta mengatur buka atau tutup toko tersebut.
+   
+5. Chat user-penjual (Rendy Arya Kemal)
+   - Menampilkan halaman chatting untuk user dan penjual dapat berkomunikasi.
 
-   ```shell
-   git clone <URL ke repositori di GitHub> <path ke suatu lokasi di filesystem>
-   ```
-3. Masuk ke dalam repositori yang sudah di-_clone_ dan jalankan perintah berikut
-   untuk menyalakan _virtual environment_:
+## Role
+1. Registered User
+   - Owner toko
+      - Dapat membuat ataupun menghapus toko, menambah atau menghapus barang yang dijual, mengatur jam operasional toko, menjawab pertanyaan yang diajukan oleh konsumen
+   - User (konsumen)
+      - Dapat melihat detail dari masing-masing toko, mengajukan pertanyaan kepada admin toko melalui chat
 
-   ```shell
-   python -m venv env
-   ```
-4. Nyalakan environment dengan perintah berikut:
-
-   ```shell
-   # Windows
-   .\env\Scripts\activate
-   # Linux/Unix, e.g. Ubuntu, MacOS
-   source env/bin/activate
-   ```
-5. Install dependencies yang dibutuhkan untuk menjalankan aplikasi dengan perintah berikut:
-
-   ```shell
-   pip install -r requirements.txt
-   ```
-
-6. Jalankan aplikasi Django menggunakan server pengembangan yang berjalan secara
-   lokal:
-
-   ```shell
-   python manage.py runserver
-   ```
-7. Bukalah `http://localhost:8000` pada browser favoritmu untuk melihat apakah aplikasi sudah berjalan dengan benar.
-
-## Contoh Deployment 
-
-Pada template ini, deployment dilakukan dengan memanfaatkan GitHub Actions sebagai _runner_ dan Heroku sebagai platform Hosting aplikasi. 
-
-Untuk melakukan deployment, kamu dapat melihat instruksi yang ada pada [Tutorial 0](https://pbp-fasilkom-ui.github.io/ganjil-2023/assignments/tutorial/tutorial-0).
-
-Untuk contoh aplikasi Django yang sudah di deploy, dapat kamu akses di [https://django-pbp-template.herokuapp.com/](https://django-pbp-template.herokuapp.com/)
-
-## Credits
-
-Template ini dibuat berdasarkan [PBP Ganjil 2021](https://gitlab.com/PBP-2021/pbp-lab) yang ditulis oleh Tim Pengajar Pemrograman Berbasis Platform 2021 ([@prakashdivyy](https://gitlab.com/prakashdivyy)) dan [django-template-heroku](https://github.com/laymonage/django-template-heroku) yang ditulis oleh [@laymonage, et al.](https://github.com/laymonage). Template ini dirancang sedemikian rupa sehingga mahasiswa dapat menjadikan template ini sebagai awalan serta acuan dalam mengerjakan tugas maupun dalam berkarya.
+2. Guest
+   - Dapat melihat daftar toko dan membuat akun.
