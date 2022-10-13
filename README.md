@@ -25,17 +25,20 @@ Proyek ini dibuat oleh kelompok F05, yang terdiri dari:
 ## Daftar Modul
 
 1. Landing Page (Jeremy Mervin Juniandi Sitorus)
-   - Menampilkan halaman awal berupa login, register, dan logout.
+   - Menampilkan halaman awal berupa login, register, dan logout
+   - Dapat mengirim pesan kontak
 2. Katalog toko (Natasya Ashil Zhafirah)
-   - Menampilkan halaman yang berisikan daftar toko yang dapat dilihat dan dipilih oleh user.
+   - Menampilkan halaman yang berisikan daftar toko yang dapat dilihat dan dipilih oleh user
    - Mengimplementasikan fitur pencarian toko
 3. Detail toko (Audrey Zefanya Priyambodo)
-   - Menampilkan halaman dari salah satu card yang dipilih oleh user, berisikan detail dari toko tersebut.
+   - Menampilkan halaman dari salah satu card yang dipilih oleh user, berisikan detail dari toko tersebut
    - Menampilkan daftar barang yang dijual
+   - Memberi rating ke toko
 4. Dashboard penjual (Divany Harryndira)
-   - Menampilkan halaman yang dapat dilihat oleh penjual untuk dapat menambah toko serta mengatur buka atau tutup toko tersebut.
+   - Membuka toko
+   - Mengatur data toko yang ditampilkan di website
 5. Chat user-penjual (Rendy Arya Kemal)
-   - Menampilkan halaman chatting untuk user dan penjual dapat berkomunikasi.
+   - Menampilkan halaman chatting untuk user dan penjual dapat berkomunikasi
 
 ## Role
 
