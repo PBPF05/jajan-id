@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "helloworld",
     "landing",
     "katalog",
+    "detail",
 ]
 
 MIDDLEWARE = [
