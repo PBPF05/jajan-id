@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "katalog",
     "detail",
     "dashboard",
+    "chat",
 ]
 
 MIDDLEWARE = [
