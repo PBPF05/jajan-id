@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "landing",
     "katalog",
     "detail",
+    "dashboard",
 ]
 
 MIDDLEWARE = [
