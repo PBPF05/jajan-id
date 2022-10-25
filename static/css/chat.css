@@ -47,3 +47,16 @@ input.sidebar-toggle:checked + #sidebar {
     width: 100%;
   }
 }
+
+.chat-item {
+  padding: 0.5rem;
+  margin-right: auto;
+  background-color: white;
+  border-radius: 0.5rem;
+}
+
+.chat-item.me {
+  background-color: greenyellow;
+  margin-right: 0;
+  margin-left: auto;
+}

@@ -16,21 +16,32 @@
         <span>Chat</span>
       </div>
 
-      <div class="list-group list-group-flush border-bottom scrollarea bg-white h-100">
+      <div class="list-group list-group-flush scrollarea bg-white h-100">
 
-        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-          <div class="d-flex w-100 align-items-center justify-content-between">
-            <strong class="mb-1">Toko Sedeng</strong>
-          </div>
-          <div class="col-10 mb-1 small">Cape lur kerja mending turu</div>
-        </a>
+        {% for channel in channels %}
+        {% if channel.toko.pk == user.pk %}
+          {% define True as user_is_toko %}
+          {% define "user" as path_base %}
+          {% define channel.user as target %}
+        {% else %}
+          {% define False as user_is_toko %}
+          {% define "toko" as path_base %}
+          {% define channel.toko as target %}
+        {% endif %}
 
-        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+        <a href="/chat/{{ path_base }}/{{ target.pk }}" class="list-group-item list-group-item-action py-3 lh-tight">
           <div class="d-flex w-100 align-items-center justify-content-between">
-            <strong class="mb-1">Toko Sableng</strong>
+            <strong class="mb-1">
+              {% if user_is_toko %}
+                {{ channel.user.get_full_name }}
+              {% else %}
+                {{ channel.toko.nama }}
+              {% endif %}
+              </strong>
           </div>
-          <div class="col-10 mb-1 small">Mengturu</div>
+          <div class="col-10 mb-1 small">{{ messages | get_item:channel.pk }}</div>
         </a>
+        {% endfor %}
         
       </div>
     </div>
@@ -44,6 +55,25 @@
         <span></span>
       </label>
       <span class="fs-5 fw-semibold">Toko Sedeng</span>
+    </div>
+
+    <div class="flex-grow-1 d-flex flex-column justify-content-between p-4">
+      <div class="d-flex flex-column gap-2">
+        <button class="btn btn-primary me-auto ms-auto">Load More</button>
+        <div class="chat-item">Bruh</div>
+        <div class="chat-item">Bruh</div>
+        <div class="chat-item">Bruh</div>
+
+        <div class="chat-item me">Halo</div>
+
+      </div>
+
+      <form>
+        <div class="d-flex flex-row gap-2">
+          <input type="text" class="form-control" placeholder="Message">
+          <button type="submit" class="btn btn-primary">Send</button>
+        <div>
+      </form>
     </div>
 
   </div>
