@@ -27,6 +27,7 @@ class Barang(models.Model):
         pakaian = "pakaian"
         alat_tulis = "alat_tulis"
 
+    nama = models.CharField(max_length=128)
     toko = models.ForeignKey(Toko, on_delete=models.CASCADE)
     harga = models.IntegerField(validators=[MinValueValidator(0)])
     deskripsi = models.TextField()
