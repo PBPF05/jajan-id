@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Chat</title>
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock meta %}
+
+{% block content %}
+<div class="w-100 d-flex flex-row" style="height: 100vh; background-color: #29434e;">
+
+  <input id="sidebar-toggle" class="sidebar-toggle" type="checkbox" />
+  <label for="sidebar-toggle" id="sidebar">
+    <div class="d-flex flex-column align-items-stretch flex-shrink-0 h-100">
+      <div class="p-3 fs-5 fw-semibold text-white" style="background-color: #546e7a;">
+        <span>Chat</span>
+      </div>
+
+      <div class="list-group list-group-flush border-bottom scrollarea bg-white h-100">
+
+        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+          <div class="d-flex w-100 align-items-center justify-content-between">
+            <strong class="mb-1">Toko Sedeng</strong>
+          </div>
+          <div class="col-10 mb-1 small">Cape lur kerja mending turu</div>
+        </a>
+
+        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+          <div class="d-flex w-100 align-items-center justify-content-between">
+            <strong class="mb-1">Toko Sableng</strong>
+          </div>
+          <div class="col-10 mb-1 small">Mengturu</div>
+        </a>
+        
+      </div>
+    </div>
+  </label>
+
+  <div class="d-flex flex-column align-items-stretch h-100 flex-grow-1">
+    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none w-100 p-3 gap-2" style="background-color: #546e7a;">
+      <label for="sidebar-toggle" class="sidebar-toggle"> 
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <span class="fs-5 fw-semibold">Toko Sedeng</span>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}
