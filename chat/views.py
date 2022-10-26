@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.template.defaulttags import register
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
 
 from chat.models import Channel, Pesan
 from chat.utils import as_json
@@ -91,6 +92,7 @@ def chat_toko(request: HttpRequest, uid: int):
 
 @login_required()
 def get_messages(request: HttpRequest, cid: int):
+    # TODO: Check permissions!!!!!!!!!!
     try:
         channel = Channel.objects.get(pk=cid)
     except ObjectDoesNotExist:
@@ -105,5 +107,25 @@ def get_messages(request: HttpRequest, cid: int):
     if after_id:
         query = query.filter(pk__gt=int(after_id))
 
-    messages = query.all()[:50]
+    messages = query.all()[:50][::-1]
     return as_json(messages)
+
+
+@login_required()
+@csrf_exempt
+def send_message(request: HttpRequest):
+    if request.method != "POST":
+        return HttpResponse("Not allowed", status=405)
+
+    data = request.POST
+    try:
+        channel = Channel.objects.get(pk=int(data["cid"]))
+    except ObjectDoesNotExist:
+        return HttpResponse("Not found", status=404)
+
+    role = "pengirim"
+    if channel.toko.pk != request.user.pk:
+        role = "user"
+
+    Pesan(pesan=data["pesan"], channel=channel, pengirim=role).save()
+    return HttpResponse("OK", status=200)
