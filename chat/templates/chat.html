@@ -10,7 +10,7 @@
 <div class="w-100 d-flex flex-row" style="height: 100vh; background-color: #29434e;">
 
   <input id="sidebar-toggle" class="sidebar-toggle" type="checkbox" />
-  <label for="sidebar-toggle" id="sidebar">
+  <label for="sidebar-toggle" class="{% if not channel %}force{% endif %}" id="sidebar">
     <div class="d-flex flex-column align-items-stretch flex-shrink-0 h-100">
       <div class="p-3 fs-5 fw-semibold text-white" style="background-color: #546e7a;">
         <span>Chat</span>
@@ -47,6 +47,7 @@
     </div>
   </label>
 
+  {% if channel %}
   <div class="d-flex flex-column align-items-stretch h-100 flex-grow-1">
     <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none w-100 p-3 gap-2" style="background-color: #546e7a;">
       <label for="sidebar-toggle" class="sidebar-toggle"> 
@@ -58,24 +59,29 @@
     </div>
 
     <div class="flex-grow-1 d-flex flex-column justify-content-between p-4">
-      <div class="d-flex flex-column gap-2">
-        <button class="btn btn-primary me-auto ms-auto">Load More</button>
-        <div class="chat-item">Bruh</div>
-        <div class="chat-item">Bruh</div>
-        <div class="chat-item">Bruh</div>
-
-        <div class="chat-item me">Halo</div>
+      <div class="d-flex flex-column gap-2" id="chat-area">
 
       </div>
 
-      <form>
+      <form id="chat-form">
         <div class="d-flex flex-row gap-2">
-          <input type="text" class="form-control" placeholder="Message">
-          <button type="submit" class="btn btn-primary">Send</button>
+          <input type="text" name="pesan" class="form-control" placeholder="Message">
+          <input type="hidden" name="cid" value="{{ channel.pk }}" />
+          <button type="submit" id="chat-btn" class="btn btn-primary">Send</button>
         <div>
       </form>
     </div>
 
   </div>
+  {% endif %}
 </div>
+
+<script>
+  {% if channel %}
+    var channelId = {{ channel.pk }}
+  {% else %}
+    var channelId = null
+  {% endif %}
+</script>
+<script type="text/javascript" src="{% static 'js/chat.js' %}" ></script>
 {% endblock content %}

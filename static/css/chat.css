@@ -32,6 +32,11 @@ input.sidebar-toggle:checked + #sidebar {
   left: 0;
 }
 
+#sidebar.force {
+  width: 100vw !important;
+  left: 0 !important;
+}
+
 @media screen and (min-width: 768px) {
   .sidebar-toggle span {
     display: none;
