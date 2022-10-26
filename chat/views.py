@@ -1,5 +1,5 @@
 from typing import Any, Dict
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,7 @@ from django.template.defaulttags import register
 from django.core.exceptions import ObjectDoesNotExist
 
 from chat.models import Channel, Pesan
+from chat.utils import as_json
 from katalog.models import Toko
 
 
@@ -54,7 +55,7 @@ def index(request: HttpRequest):
 @login_required()
 def chat_user(request: HttpRequest, uid: int):
     try:
-        toko = Toko.objects.get(pk=request.user.pk)
+        toko = Toko.objects.get(pk=request.user.pk)  # type: ignore
         user = User.objects.get(pk=uid)
         channel, _ = Channel.objects.get_or_create(user=user, toko=toko)  # type: ignore
     except ObjectDoesNotExist:
@@ -86,3 +87,23 @@ def chat_toko(request: HttpRequest, uid: int):
             **generate_sidebar(request),
         },
     )
+
+
+@login_required()
+def get_messages(request: HttpRequest, cid: int):
+    try:
+        channel = Channel.objects.get(pk=cid)
+    except ObjectDoesNotExist:
+        return HttpResponse("Not found", status=404)
+
+    before_id = request.GET.get("before")
+    after_id = request.GET.get("after")
+
+    query = channel.pesan_set.order_by("-pk")
+    if before_id:
+        query = query.filter(pk__lt=int(before_id))
+    if after_id:
+        query = query.filter(pk__gt=int(after_id))
+
+    messages = query.all()[:50]
+    return as_json(messages)
