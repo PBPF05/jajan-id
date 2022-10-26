@@ -55,7 +55,13 @@
         <span></span>
         <span></span>
       </label>
-      <span class="fs-5 fw-semibold">Toko Sedeng</span>
+      <span class="fs-5 fw-semibold">
+        {% if channel.toko.pk == user.pk %}
+          {{ channel.user.get_full_name }}
+        {% else %}
+          {{ channel.toko.nama }}
+        {% endif %}
+      </span>
     </div>
 
     <div class="flex-grow-1 d-flex flex-column justify-content-between p-4">
