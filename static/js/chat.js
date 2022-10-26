@@ -19,6 +19,8 @@ function getMessages(beforeId, afterId, cb) {
 
 function drawChat() {
   const chatArea = document.getElementById("chat-area");
+  chatArea.innerHTML = "";
+
   messages.map((message) => {
     const newDiv = document.createElement("div");
     const newContent = document.createTextNode(message.fields.pesan);
@@ -54,6 +56,7 @@ function submitChat(e) {
       getMessages(null, lastId, (data) => {
         messages.push(...data);
         drawChat();
+        $form.trigger("reset");
       });
     },
   });
