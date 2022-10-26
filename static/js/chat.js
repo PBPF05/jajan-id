@@ -66,5 +66,18 @@ $(function () {
     messages = data;
     drawChat();
   });
+
   $("#chat-btn").click(submitChat);
+
+  setInterval(() => {
+    let lastId = -1;
+    if (messages.length > 0) {
+      lastId = messages[messages.length - 1].pk;
+    }
+
+    getMessages(null, lastId, (data) => {
+      messages.push(...data);
+      drawChat();
+    });
+  }, 5000);
 });
