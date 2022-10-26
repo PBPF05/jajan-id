@@ -52,7 +52,6 @@ function submitChat(e) {
     url: "/chat/messages/send",
     data: $form.serialize(), // serializes the form's elements.
     success: () => {
-      alert("Sent!");
       getMessages(null, lastId, (data) => {
         messages.push(...data);
         drawChat();
