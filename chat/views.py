@@ -1,11 +1,13 @@
 from typing import Any, Dict
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.template.defaulttags import register
-from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 
 from chat.models import Channel, Pesan
@@ -42,19 +44,28 @@ def generate_sidebar(request: HttpRequest) -> dict:
     }
 
 
-@login_required()
-def index(request: HttpRequest):
+def render_chat(request: HttpRequest, **kwagrs):
     return render(
         request,
         "chat.html",
         {
+            **kwagrs,
             **generate_sidebar(request),
         },
     )
 
 
 @login_required()
+def index(request: HttpRequest):
+    return render_chat(request)
+
+
+@login_required()
 def chat_user(request: HttpRequest, uid: int):
+    if request.user.pk == uid:
+        messages.error(request, "Cannot message with yourself")
+        return render_chat(request)
+
     try:
         toko = Toko.objects.get(pk=request.user.pk)  # type: ignore
         user = User.objects.get(pk=uid)
@@ -62,14 +73,7 @@ def chat_user(request: HttpRequest, uid: int):
     except ObjectDoesNotExist:
         channel = None
 
-    return render(
-        request,
-        "chat.html",
-        {
-            "channel": channel,
-            **generate_sidebar(request),
-        },
-    )
+    return render_chat(request, channel=channel)
 
 
 @login_required()
@@ -80,14 +84,7 @@ def chat_toko(request: HttpRequest, uid: int):
     except ObjectDoesNotExist:
         channel = None
 
-    return render(
-        request,
-        "chat.html",
-        {
-            "channel": channel,
-            **generate_sidebar(request),
-        },
-    )
+    return render_chat(request, channel=channel)
 
 
 @login_required()
