@@ -5,11 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.template.defaulttags import register
 from django.views.decorators.csrf import csrf_exempt
 
+from chat.forms import MessageForm
 from chat.models import Channel, Pesan
 from chat.utils import as_json
 from katalog.models import Toko
@@ -40,7 +41,7 @@ def generate_sidebar(request: HttpRequest) -> dict:
 
     return {
         "channels": channels,
-        "chat_messages": last_messages,
+        "last_messages": last_messages,
     }
 
 
@@ -119,9 +120,12 @@ def send_message(request: HttpRequest):
     if request.method != "POST":
         return HttpResponse("Not allowed", status=405)
 
-    data = request.POST
+    data = MessageForm(request.POST)
+    if not data.is_valid():
+        return HttpResponseBadRequest("Invalid form")
+
     try:
-        channel = Channel.objects.get(pk=int(data["cid"]))
+        channel = Channel.objects.get(pk=data.cleaned_data["cid"])
     except ObjectDoesNotExist:
         return HttpResponse("Not found", status=404)
 
@@ -132,5 +136,5 @@ def send_message(request: HttpRequest):
     if channel.toko.pk != request.user.pk:
         role = "user"
 
-    Pesan(pesan=data["pesan"], channel=channel, pengirim=role).save()
+    Pesan(pesan=data.cleaned_data["pesan"], channel=channel, pengirim=role).save()
     return HttpResponse("OK", status=200)
