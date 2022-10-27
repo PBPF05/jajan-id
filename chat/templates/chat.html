@@ -17,6 +17,11 @@
       </div>
 
       <div class="list-group list-group-flush scrollarea bg-white h-100">
+        {% if messages %}
+          {% for message in messages %}
+          <div class="list-group-item"><div class="alert alert-danger">{{ message }}</div></div>
+          {% endfor %}
+        {% endif %}
 
         {% for channel in channels %}
         {% if channel.toko.pk == user.pk %}
@@ -39,7 +44,7 @@
               {% endif %}
               </strong>
           </div>
-          <div class="col-10 mb-1 small">{{ messages | get_item:channel.pk }}</div>
+          <div class="col-10 mb-1 small">{{ chat_messages | get_item:channel.pk }}</div>
         </a>
         {% endfor %}
         
