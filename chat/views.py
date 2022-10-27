@@ -41,7 +41,7 @@ def generate_sidebar(request: HttpRequest) -> dict:
 
     return {
         "channels": channels,
-        "last_messages": last_messages,
+        "chat_messages": last_messages,
     }
 
 
