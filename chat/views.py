@@ -69,10 +69,11 @@ def chat_user(request: HttpRequest, uid: int):
     try:
         toko = Toko.objects.get(pk=request.user.pk)  # type: ignore
         user = User.objects.get(pk=uid)
-        channel, _ = Channel.objects.get_or_create(user=user, toko=toko)  # type: ignore
     except ObjectDoesNotExist:
-        channel = None
+        messages.error(request, "User does not exist or you do not have a store")
+        return render_chat(request)
 
+    channel, _ = Channel.objects.get_or_create(user=user, toko=toko)  # type: ignore
     return render_chat(request, channel=channel)
 
 
@@ -80,10 +81,11 @@ def chat_user(request: HttpRequest, uid: int):
 def chat_toko(request: HttpRequest, uid: int):
     try:
         toko = Toko.objects.get(pk=uid)
-        channel, _ = Channel.objects.get_or_create(user=request.user, toko=toko)  # type: ignore
     except ObjectDoesNotExist:
-        channel = None
+        messages.error(request, "Toko does not exist")
+        return render_chat(request)
 
+    channel, _ = Channel.objects.get_or_create(user=request.user, toko=toko)  # type: ignore
     return render_chat(request, channel=channel)
 
 
@@ -94,6 +96,9 @@ def get_messages(request: HttpRequest, cid: int):
         channel = Channel.objects.get(pk=cid)
     except ObjectDoesNotExist:
         return HttpResponse("Not found", status=404)
+
+    if channel.user.pk != request.user.pk and channel.toko.pk != request.user.pk:
+        return HttpResponse("You do not have access to this channel", status=400)
 
     before_id = request.GET.get("before")
     after_id = request.GET.get("after")
@@ -119,6 +124,9 @@ def send_message(request: HttpRequest):
         channel = Channel.objects.get(pk=int(data["cid"]))
     except ObjectDoesNotExist:
         return HttpResponse("Not found", status=404)
+
+    if channel.user.pk != request.user.pk and channel.toko.pk != request.user.pk:
+        return HttpResponse("You do not have access to this channel", status=400)
 
     role = "pengirim"
     if channel.toko.pk != request.user.pk:
