@@ -92,7 +92,6 @@ def chat_toko(request: HttpRequest, uid: int):
 
 @login_required()
 def get_messages(request: HttpRequest, cid: int):
-    # TODO: Check permissions!!!!!!!!!!
     try:
         channel = Channel.objects.get(pk=cid)
     except ObjectDoesNotExist:
