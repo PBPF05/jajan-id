@@ -18,5 +18,7 @@ def show_katalog(request) :
 
 # @login_required(login_url="../login")
 def show_json(request):
-    datakatalog = Toko.objects.filter(user=request.user)
+    datakatalog = Toko.objects.all()
+    # datakatalog = Toko.objects.filter(pemilik=request.user)
+
     return HttpResponse(serializers.serialize('json', datakatalog))

@@ -6,5 +6,5 @@ app_name = "katalog"
 urlpatterns = [
     # TODO: Routing
     path('katalog/', show_katalog, name='katalog'), #sesuaikan dengan nama fungsi yang dibuat
-    path('json/', show_json, name='json'), #sesuaikan dengan nama fungsi yang dibuat
+    path('katalog/json/', show_json, name='json'), #sesuaikan dengan nama fungsi yang dibuat
 ]

@@ -1,23 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <h1>Katalog</h1>
-        <div class="row">
-            <!-- {% if product %}  -->
-            {% for Toko in datakatalog %}
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="card border-primary mb-3" style="max-width: 18rem;">
-                    <h5 class="card-title"><strong>Toko: {{ Toko.nama }}</strong></h5>
-                    <p class="card-text">{{ Toko.deskripsi }}</p>
-                    <p class="card-text">{{ Toko.kota }}</p>
-                    <p class="card-text">{{ Toko.provinsi }}</p>
-                    <p class="card-text">{{ Toko.lokasi }}</p>
-                    <p class="card-text">{{ Toko.range_harga }}</p>
-                    <p class="card-text">{{ Toko.buka }}</p>
-                    <p class="card-text">{{ Toko.kondisi }}</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            <!-- {% endif %} -->
+
+        <div class="row" id="rowId">
+
         </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function(){
+        let data = ""
+		load_data();
+
+		function load_data(jurusan, keyword)
+		{
+			$.ajax({
+				url:"/katalog/json/",
+				type:"GET",
+                dataType: 'json',
+				success:function(response)
+				{
+                    for (let i of response){
+                        console.log(0)
+                        data += `<div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="card border-primary mb-3" style="max-width: 18rem;">
+                                <h5 class="card-title"><strong>toko: ${ i.fields.nama }</strong></h5>
+                                <p class="card-text">${ i.fields.deskripsi }</p>
+                                <p class="card-text">${ i.fields.kota }</p>
+                                <p class="card-text">${ i.fields.provinsi }</p>
+                                <p class="card-text">${ i.fields.lokasi }</p>
+                                <p class="card-text">${ i.fields.range_harga }</p>
+                                <p class="card-text">${ i.fields.buka }</p>
+                                <p class="card-text">${ i.fields.kondisi }</p>
+                                </div>
+                            </div>
+                        </div>`
+                    }
+					$('#rowId').append(data);
+				}
+			});
+	 	}
+		$('#s_keyword').keyup(function(){
+			var jurusan = $("#s_jurusan").val();
+    		var keyword = $("#s_keyword").val();
+			load_data(jurusan, keyword);
+		});
+		$('#s_jurusan').change(function(){
+			var jurusan = $("#s_jurusan").val();
+    		var keyword = $("#s_keyword").val();
+			load_data(jurusan, keyword);
+		});
+	});
+</script>
 {% endblock content %}
