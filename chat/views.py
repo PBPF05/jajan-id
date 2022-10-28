@@ -86,7 +86,7 @@ def chat_toko(request: HttpRequest, uid: int):
         messages.error(request, "Toko does not exist")
         return render_chat(request)
 
-    channel, _ = Channel.objects.get_or_create(user=request.user, toko=toko)  # type: ignore
+    channel, _ = Channel.objects.get_or_create(user=request.user, toko=toko)
     return render_chat(request, channel=channel)
 
 
