@@ -7,12 +7,12 @@
 {% endblock meta %}
 
 {% block content %}
-<div class="w-100 d-flex flex-row" style="height: 100vh; background-color: #29434e;">
+<div class="w-100 d-flex flex-row" style="height: 100vh; background-color: #545454;">
 
   <input id="sidebar-toggle" class="sidebar-toggle" type="checkbox" />
   <label for="sidebar-toggle" class="{% if not channel %}force{% endif %}" id="sidebar">
     <div class="d-flex flex-column align-items-stretch flex-shrink-0 h-100">
-      <div class="p-3 fs-5 fw-semibold text-white" style="background-color: #546e7a;">
+      <div class="p-3 fs-5 fw-semibold text-white bg-header">
         <span>Chat</span>
       </div>
 
@@ -54,7 +54,7 @@
 
   {% if channel %}
   <div class="d-flex flex-column align-items-stretch h-100 flex-grow-1">
-    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none w-100 p-3 gap-2" style="background-color: #546e7a;">
+    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none w-100 p-3 gap-2 bg-header">
       <label for="sidebar-toggle" class="sidebar-toggle"> 
         <span></span>
         <span></span>

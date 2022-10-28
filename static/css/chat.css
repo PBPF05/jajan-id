@@ -9,7 +9,7 @@ input.sidebar-toggle {
   margin-bottom: 5px;
   position: relative;
 
-  background: #cdcdcd;
+  background: #545454;
   border-radius: 3px;
 }
 
@@ -61,7 +61,11 @@ input.sidebar-toggle:checked + #sidebar {
 }
 
 .chat-item.me {
-  background-color: greenyellow;
+  background-color: #ffb942;
   margin-right: 0;
   margin-left: auto;
+}
+
+.bg-header {
+  background-color: #727272;
 }
