@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <div class="row">
+            <!-- {% if product %}  -->
+            {% for Toko in datakatalog %}
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card border-primary mb-3" style="max-width: 18rem;">
+                    <h5 class="card-title"><strong>Toko: {{ Toko.nama }}</strong></h5>
+                    <p class="card-text">{{ Toko.deskripsi }}</p>
+                    <p class="card-text">{{ Toko.kota }}</p>
+                    <p class="card-text">{{ Toko.provinsi }}</p>
+                    <p class="card-text">{{ Toko.lokasi }}</p>
+                    <p class="card-text">{{ Toko.range_harga }}</p>
+                    <p class="card-text">{{ Toko.buka }}</p>
+                    <p class="card-text">{{ Toko.kondisi }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- {% endif %} -->
+        </div>
+{% endblock content %}
