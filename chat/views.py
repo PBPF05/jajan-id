@@ -80,6 +80,10 @@ def chat_user(request: HttpRequest, uid: int):
 
 @login_required()
 def chat_toko(request: HttpRequest, uid: int):
+    if request.user.pk == uid:
+        messages.error(request, "Cannot message with yourself")
+        return render_chat(request)
+
     try:
         toko = Toko.objects.get(pk=uid)
     except ObjectDoesNotExist:
