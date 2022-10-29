@@ -1,23 +1,95 @@
 {% extends 'base.html' %}
 {% block content %}
+<div id="form-search" style="margin-left: 350px"
+    <label><input type="text" onkeyup="datapo()" name="search" id="search" class="search" placeholder="Search Toko"</label>
+</div>
 <h1>Katalog</h1>
         <div class="row">
-            <!-- {% if product %}  -->
             {% for Toko in datakatalog %}
             <div class="col-md-6 col-lg-4 col-xl-3">
                 <div class="card border-primary mb-3" style="max-width: 18rem;">
-                    <h5 class="card-title"><strong>Toko: {{ Toko.nama }}</strong></h5>
-                    <p class="card-text">{{ Toko.deskripsi }}</p>
-                    <p class="card-text">{{ Toko.kota }}</p>
-                    <p class="card-text">{{ Toko.provinsi }}</p>
-                    <p class="card-text">{{ Toko.lokasi }}</p>
-                    <p class="card-text">{{ Toko.range_harga }}</p>
-                    <p class="card-text">{{ Toko.buka }}</p>
-                    <p class="card-text">{{ Toko.kondisi }}</p>
+                    <div class="card text-center">
+                        <h2 class="card-header">{{ Toko.nama }}</h2>
                     </div>
+                    <div class="card-body">
+                        <h5 class="card-text">{{ Toko.deskripsi }}</h5>
+                        <p class="card-text">{{ Toko.lokasi }}, {{ Toko.kota }}, {{ Toko.provinsi }}</p>
+                        <div class="card text-right">
+                            <a href="#" class="btn btn-primary">Details</a>                       
+                        </div>
+                        <hr>
+                        <div class="box"><div class="box">Range harga: {{ Toko.range_harga }}</div>
+                        <div class="box"><div class="box">Buka: {{ Toko.buka }}</div>
+                        <div class="box"><div class="box">Kondisi: {{ Toko.kondisi }}</div>
+                      </div>
+                      <div class="card text-center">
+                        <div class="card-footer text-muted">
+                            <a href="#" class="card-link">Review</a>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
             {% endfor %}
-            <!-- {% endif %} -->
         </div>
+
+<div class="row" id="rowId"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function(){
+        let data = ""
+		load_data();
+
+		function load_data(jurusan, keyword)
+		{
+			$.ajax({
+				url:"/katalog/json/",
+				type:"GET",
+                dataType: 'json',
+				success:function(response)
+				{
+                    for (let i of response){
+                        console.log(0)
+                        data += `<div class="col-md-6 col-lg-4 col-xl-3">
+                                    <div class="card border-primary mb-3" style="max-width: 18rem;">
+                                        <div class="card text-center">
+                                            <h2 class="card-header">${ i.fields.nama }</h2>
+                                        </div>
+                                            <div class="card-body">
+                                                <h5 class="card-text">${ i.fields.deskripsi }</h5>
+                                                <p class="card-text">${ i.fields.lokasi }, ${ i.fields.kota }, ${ i.fields.provinsi }</p>
+                                                <div class="card text-right">
+                                                    <a href="#" class="btn btn-primary">Details</a>                       
+                                                </div>
+                                                <hr>
+                                                <div class="box"><div class="box">Range harga: ${ i.fields.range_harga }</div>
+                                                <div class="box"><div class="box">Buka: ${ i.fields.buka }</div>
+                                                <div class="box"><div class="box">Kondisi: ${ i.fields.kondisi }</div>
+                                            </div>  
+                                                    <div class="card text-center">
+                                                        <div class="card-footer text-muted">
+                                                            <a href="#" class="card-link">Review</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>`
+                    }
+					$('#rowId').append(data);
+				}
+			});
+	 	}
+		$('#s_keyword').keyup(function(){
+			var jurusan = $("#s_jurusan").val();
+    		var keyword = $("#s_keyword").val();
+			load_data(jurusan, keyword);
+		});
+		$('#s_jurusan').change(function(){
+			var jurusan = $("#s_jurusan").val();
+    		var keyword = $("#s_keyword").val();
+			load_data(jurusan, keyword);
+		});
+	});
+</script>
+
 {% endblock content %}
