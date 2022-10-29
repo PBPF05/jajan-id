@@ -14,11 +14,25 @@ def show_katalog(request) :
     context = {
         'datakatalog' : datakatalog
     }
+
     return render(request, 'katalog.html', context)
 
 # @login_required(login_url="../login")
 def show_json(request):
     datakatalog = Toko.objects.all()
-    # datakatalog = Toko.objects.filter(pemilik=request.user)
+    if request.method == 'GET': # this will be GET now      
+        nama =  '' # do some research what it does     
+        if   request.GET.get('search') == None:
+            nama = ''
+        else:
+            nama =  request.GET.get('search')
+        print(nama)
+        status = Toko.objects.filter(nama__icontains=nama)
+        return HttpResponse(serializers.serialize('json', status))
 
     return HttpResponse(serializers.serialize('json', datakatalog))
+
+
+def show_json_search(request, nama_toko):
+    status = Toko.objects.filter(nama__icontains=nama_toko)
+    return HttpResponse(serializers.serialize('json', status))
