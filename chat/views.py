@@ -27,9 +27,11 @@ def define(val=None):
 
 
 def generate_sidebar(request: HttpRequest) -> dict:
-    channels = Channel.objects.filter(
-        Q(user=request.user.pk) | Q(toko=request.user.pk)
-    ).all()
+    channels = (
+        Channel.objects.filter(Q(user=request.user.pk) | Q(toko=request.user.pk))
+        .order_by("-last_timestamp")
+        .all()
+    )
 
     last_messages: Dict[int, str] = {}
     for channel in channels:
@@ -140,4 +142,5 @@ def send_message(request: HttpRequest):
         role = "user"
 
     Pesan(pesan=data.cleaned_data["pesan"], channel=channel, pengirim=role).save()
+    channel.save()
     return HttpResponse("OK", status=200)

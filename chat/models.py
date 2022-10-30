@@ -19,6 +19,7 @@ class Channel(models.Model):
 
     toko = models.ForeignKey(Toko, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    last_timestamp = models.DateTimeField(auto_now=True)
 
     pesan_set: "RelatedManager[Pesan]"
 
