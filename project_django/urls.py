@@ -22,6 +22,6 @@ urlpatterns = [
     path("", include("landing.urls")),
     path("", include("katalog.urls")),
     path("", include("detail.urls")),
-    path("", include("dashboard.urls")),
+    path("dashboard/", include("dashboard.urls")),
     path("", include("chat.urls")),
 ]
