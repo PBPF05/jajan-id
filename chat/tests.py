@@ -63,13 +63,14 @@ class ChatTestCase(TestCase):
     def test_sidebar_order(self):
         self.client.force_login(self.test4)
         self.client.get("/chat/toko/1")
-        r = self.client.get("/chat/toko/2")
+        self.client.get("/chat/toko/2")
+        r = self.client.get("/chat/")
 
         channel_toko1 = Channel.objects.get(user=self.test4, toko=self.toko1)
         channel_toko2 = Channel.objects.get(user=self.test4, toko=self.toko2)
 
         html_content: str = r.content.decode()
-        self.assertLess(html_content.index("Contoh 1"), html_content.index("Contoh 2"))
+        self.assertLess(html_content.index("Contoh 2"), html_content.index("Contoh 1"))
 
         self.client.post(
             "/chat/messages/send",
@@ -81,9 +82,9 @@ class ChatTestCase(TestCase):
             {"pesan": "Contoh pesan user", "cid": channel_toko1.pk},
         )
 
-        self.assertGreater(
-            html_content.index("Contoh 1"), html_content.index("Contoh 2")
-        )
+        r = self.client.get("/chat/")
+        html_content: str = r.content.decode()
+        self.assertLess(html_content.index("Contoh 1"), html_content.index("Contoh 2"))
 
     def test_never_chat_before(self):
         self.client.force_login(self.test3)
