@@ -122,6 +122,55 @@ class ChatTestCase(TestCase):
         r = self.client.get("/chat/user/1")
         self.assertContains(r, "do not have a store")
 
+    def test_messages_api_errors(self):
+        self.client.force_login(self.test1)
+        r = self.client.get("/chat/messages/99")
+        self.assertEqual(r.status_code, 404)
+        self.assertEqual(r.content, b"Not found")
+
+        channel = Channel(toko=self.toko2, user=self.test3)
+        channel.save()
+
+        r = self.client.get(f"/chat/messages/{channel.pk}")
+        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.content, b"You do not have access to this channel")
+
+    def test_send_api_errors(self):
+        self.client.force_login(self.test1)
+
+        r = self.client.get("/chat/messages/send")
+        self.assertEqual(r.status_code, 405)
+        self.assertEqual(r.content, b"Not allowed")
+
+        r = self.client.post(
+            "/chat/messages/send",
+            {
+                "pesan": "",
+                "cid": 1,
+            },
+        )
+        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.content, b"Invalid form")
+
+        r = self.client.post(
+            "/chat/messages/send",
+            {
+                "pesan": "adsd",
+                "cid": 12789,
+            },
+        )
+        self.assertEqual(r.status_code, 404)
+        self.assertEqual(r.content, b"Not found")
+
+        channel = Channel(toko=self.toko2, user=self.test3)
+        channel.save()
+
+        r = self.client.post(
+            "/chat/messages/send", {"pesan": "halooo", "cid": channel.pk}
+        )
+        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.content, b"You do not have access to this channel")
+
     def test_messaging(self):
         self.client.force_login(self.test3)
         self.client.get("/chat/toko/1")
@@ -164,3 +213,19 @@ class ChatTestCase(TestCase):
                 },
             ],
         )
+
+        self.client.post(
+            "/chat/messages/send", {"pesan": "Pesan tambahan", "cid": channel.pk}
+        )
+
+        self.client.post(
+            "/chat/messages/send", {"pesan": "Pesan tambahan", "cid": channel.pk}
+        )
+
+        r = self.client.get(f"/chat/messages/{channel.pk}", {"before": 3})
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.json()), 2)
+
+        r = self.client.get(f"/chat/messages/{channel.pk}", {"after": 2})
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.json()), 2)
