@@ -4,7 +4,7 @@ from katalog.models import Toko
 from django.contrib.auth.models import User
 
 if TYPE_CHECKING:
-    from django.db.models.manager import RelatedManager
+    from django.db.models.manager import RelatedManager  # pragma: no cover
 
 
 class Channel(models.Model):
