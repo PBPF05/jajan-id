@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Chat</title>
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock meta %}
+
+{% block content %}
+<div class="w-100 d-flex flex-row" style="height: 100vh; background-color: #545454;">
+
+  <input id="sidebar-toggle" class="sidebar-toggle" type="checkbox" />
+  <label for="sidebar-toggle" class="{% if not channel %}force{% endif %}" id="sidebar">
+    <div class="d-flex flex-column align-items-stretch flex-shrink-0 h-100">
+      <div class="p-3 fs-5 fw-semibold text-white bg-header">
+        <span>Chat</span>
+      </div>
+
+      <div class="list-group list-group-flush scrollarea bg-white h-100">
+        {% if messages %}
+          {% for message in messages %}
+          <div class="list-group-item"><div class="alert alert-danger">{{ message }}</div></div>
+          {% endfor %}
+        {% endif %}
+
+        {% for channel in channels %}
+        {% if channel.toko.pk == user.pk %}
+          {% define True as user_is_toko %}
+          {% define "user" as path_base %}
+          {% define channel.user as target %}
+        {% else %}
+          {% define False as user_is_toko %}
+          {% define "toko" as path_base %}
+          {% define channel.toko as target %}
+        {% endif %}
+
+        <a href="/chat/{{ path_base }}/{{ target.pk }}" class="list-group-item list-group-item-action py-3 lh-tight">
+          <div class="d-flex w-100 align-items-center justify-content-between">
+            <strong class="mb-1">
+              {% if user_is_toko %}
+                {{ channel.user.get_full_name }}
+              {% else %}
+                {{ channel.toko.nama }}
+              {% endif %}
+              </strong>
+          </div>
+          <div class="col-10 mb-1 small">{{ chat_messages | get_item:channel.pk }}</div>
+        </a>
+        {% endfor %}
+        
+      </div>
+    </div>
+  </label>
+
+  {% if channel %}
+  <div class="d-flex flex-column align-items-stretch h-100 flex-grow-1">
+    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none w-100 p-3 gap-2 bg-header">
+      <label for="sidebar-toggle" class="sidebar-toggle"> 
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <span class="fs-5 fw-semibold">
+        {% if channel.toko.pk == user.pk %}
+          {{ channel.user.get_full_name }}
+        {% else %}
+          {{ channel.toko.nama }}
+        {% endif %}
+      </span>
+    </div>
+
+    <div class="flex-grow-1 d-flex flex-column justify-content-between p-4">
+      <div class="d-flex flex-column gap-2" id="chat-area">
+
+      </div>
+
+      <form id="chat-form">
+        <div class="d-flex flex-row gap-2">
+          <input type="text" name="pesan" class="form-control" placeholder="Message">
+          <input type="hidden" name="cid" value="{{ channel.pk }}" />
+          <button type="submit" id="chat-btn" class="btn btn-primary">Send</button>
+        <div>
+      </form>
+    </div>
+
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  {% if channel %}
+    var channelId = {{ channel.pk }}
+  {% else %}
+    var channelId = null
+  {% endif %}
+</script>
+<script type="text/javascript" src="{% static 'js/chat.js' %}" ></script>
+{% endblock content %}
