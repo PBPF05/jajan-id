@@ -1,5 +1,8 @@
 # jajan.id
 
+![Deployment status](https://github.com/PBPF05/jajan-id/actions/workflows/dpl.yml/badge.svg)
+![Test status](https://github.com/PBPF05/jajan-id/actions/workflows/test.yml/badge.svg)
+
 > Proyek ini dibuat untuk memenuhi tugas Proyek Tengah Semester (PTS) pada mata kuliah Pemrograman Berbasis Platform (CSGE602022) yang diselenggarakan oleh Fakultas Ilmu Komputer, Universitas Indonesia pada Semester Gasal, Tahun Ajaran 2022/2023.
 
 ## Situs
