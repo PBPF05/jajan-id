@@ -6,7 +6,7 @@ from detail.models import Barang
 class TambahBarangForm(forms.ModelForm):
     class Meta:
         model = Barang
-        fields = '__all__'
+        fields = ('nama', 'harga', 'jenis', 'deskripsi')
 
         widgets = {
             # 'date' : forms.DateInput(),
