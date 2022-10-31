@@ -1,10 +1,40 @@
 /// <reference path="jquery-3.6.1.js" />
 
 // CONSTANTS
+const TOAST_HTML = `
+<div class="toast show">
+  <div class="toast-header bg-danger text-bg-danger">
+    <strong class="me-auto">Error</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body"></div>
+</div>
+`;
 const LOAD_MORE_HTML = `<button class="btn btn-primary me-auto ms-auto">Load More</button>`;
 const IS_SELLER = window.location.href.indexOf("user") != -1;
 let showLoadMoreBtn = false;
 let messages = [];
+
+function showErrorToast(message) {
+  const $newToast = $(TOAST_HTML);
+  $newToast.find(".toast-body").text(message);
+
+  $("#toast-container").append($newToast);
+}
+
+function handleRequestErr(xhr, textStatus, err) {
+  if (xhr.responseText) {
+    showErrorToast(xhr.responseText);
+    return;
+  }
+
+  if (err) {
+    showErrorToast(err);
+    return;
+  }
+
+  showErrorToast(textStatus);
+}
 
 function getMessages(beforeId, afterId, cb) {
   let requestUrl = new URL(
@@ -16,9 +46,9 @@ function getMessages(beforeId, afterId, cb) {
   if (afterId) requestUrl.searchParams.set("after", afterId);
 
   $.getJSON(requestUrl.toString(), (data) => {
-    showLoadMoreBtn = data.length == 50
-    cb(data)
-  });
+    showLoadMoreBtn = data.length == 50;
+    cb(data);
+  }).fail(handleRequestErr);
 }
 
 function drawChat() {
@@ -26,15 +56,15 @@ function drawChat() {
   chatArea.innerHTML = "";
 
   messages.map((message) => {
-    const $loadMoreBtn = $(LOAD_MORE_HTML)
+    const $loadMoreBtn = $(LOAD_MORE_HTML);
     $loadMoreBtn.click(() => {
       getMessages(messages[0].pk, null, (data) => {
-        messages = [...data, ...messages]
-        drawChat()
-      })
-    })
+        messages = [...data, ...messages];
+        drawChat();
+      });
+    });
 
-    if (showLoadMoreBtn) $(chatArea).append($loadMoreBtn)
+    if (showLoadMoreBtn) $(chatArea).append($loadMoreBtn);
 
     const newDiv = document.createElement("div");
     const newContent = document.createTextNode(message.fields.pesan);
@@ -72,10 +102,10 @@ function submitChat(e) {
         $form.trigger("reset");
       });
     },
-  });
+  }).fail(handleRequestErr);
 }
 
-$(function() {
+$(function () {
   getMessages(null, null, (data) => {
     messages = data;
     drawChat();
