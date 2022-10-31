@@ -1,10 +1,40 @@
 /// <reference path="jquery-3.6.1.js" />
 
 // CONSTANTS
+const TOAST_HTML = `
+<div class="toast show">
+  <div class="toast-header bg-danger text-bg-danger">
+    <strong class="me-auto">Error</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body"></div>
+</div>
+`;
 const LOAD_MORE_HTML = `<button class="btn btn-primary me-auto ms-auto">Load More</button>`;
 const IS_SELLER = window.location.href.indexOf("user") != -1;
 let showLoadMoreBtn = false;
 let messages = [];
+
+function showErrorToast(message) {
+  const $newToast = $(TOAST_HTML);
+  $newToast.find(".toast-body").text(message);
+
+  $("#toast-container").append($newToast);
+}
+
+function handleRequestErr(xhr, textStatus, err) {
+  if (xhr.responseText) {
+    showErrorToast(xhr.responseText);
+    return;
+  }
+
+  if (err) {
+    showErrorToast(err);
+    return;
+  }
+
+  showErrorToast(textStatus);
+}
 
 function getMessages(beforeId, afterId, cb) {
   let requestUrl = new URL(
@@ -18,7 +48,7 @@ function getMessages(beforeId, afterId, cb) {
   $.getJSON(requestUrl.toString(), (data) => {
     showLoadMoreBtn = data.length == 50;
     cb(data);
-  });
+  }).fail(handleRequestErr);
 }
 
 function drawChat() {
@@ -72,7 +102,7 @@ function submitChat(e) {
         $form.trigger("reset");
       });
     },
-  });
+  }).fail(handleRequestErr);
 }
 
 $(function () {
