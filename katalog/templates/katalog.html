@@ -22,46 +22,90 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             console.log(urlParams.get('search'));
-			$.ajax({
-				url:`/katalog/json/${urlParams.get('search')}`,
-				type:"GET",
-                dataType: 'json',
-				success:function(response)
-				{
-                    let data = ""
-                    for (let i of response){
-                        console.log(0)
-                        data += `<div>
-                                    <div class="card border-primary mb-3" >
-                                        <div class="card text-center">
-                                            <h2 class="card-header">${ i.fields.nama }</h2>
-                                        </div>
-                                            <div class="card-body">
-                                                <h5 class="card-text">${ i.fields.deskripsi }</h5>
-                                                <p class="card-text">${ i.fields.lokasi }, ${ i.fields.kota }, ${ i.fields.provinsi }</p>
-                                                <div class="card text-right">
-                                                    <a href="#" class="btn btn-primary">Details</a>                       
-                                                </div>
-                                                <hr>
-                                                <div class="box"><div class="box">Range harga: ${ i.fields.range_harga }</div>
-                                                <div class="box"><div class="box">Buka: ${ i.fields.buka }</div>
-                                                <div class="box"><div class="box">Kondisi: ${ i.fields.kondisi }</div>
-                                            </div>  
-                                                    <div class="card text-center">
-                                                        <div class="card-footer text-muted">
-                                                            <a href="#" class="card-link">Review</a>
-                                                        </div>
+            if (urlParams.get('search') == null) {
+                $.ajax({
+                    url:`/katalog/json/`,
+                    type:"GET",
+                    dataType: 'json',
+                    success:function(response)
+                    {
+                        let data = ""
+                        for (let i of response){
+                            console.log(0)
+                            data += `<div>
+                                        <div class="card border-primary mb-3" >
+                                            <div class="card text-center">
+                                                <h2 class="card-header">${ i.fields.nama }</h2>
+                                            </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-text">${ i.fields.deskripsi }</h5>
+                                                    <p class="card-text">${ i.fields.lokasi }, ${ i.fields.kota }, ${ i.fields.provinsi }</p>
+                                                    <div class="card text-right">
+                                                        <a href="#" class="btn btn-primary">Details</a>                       
                                                     </div>
+                                                    <hr>
+                                                    <div class="box"><div class="box">Range harga: ${ i.fields.range_harga }</div>
+                                                    <div class="box"><div class="box">Buka: ${ i.fields.buka }</div>
+                                                    <div class="box"><div class="box">Kondisi: ${ i.fields.kondisi }</div>
+                                                </div>  
+                                                        <div class="card text-center">
+                                                            <div class="card-footer text-muted">
+                                                                <a href="#" class="card-link">Review</a>
+                                                            </div>
+                                                        </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>`
-                                    
+                                    </div>`
+                                        
+                        }
+    
+                        $('#rowId').html(data);
                     }
-
-					$('#rowId').html(data);
-				}
-			});
+                });
+            } else {
+                $.ajax({
+                    url:`/katalog/json/${urlParams.get('search')}`,
+                    type:"GET",
+                    dataType: 'json',
+                    success:function(response)
+                    {
+                        let data = ""
+                        for (let i of response){
+                            console.log(0)
+                            data += `<div>
+                                        <div class="card border-primary mb-3" >
+                                            <div class="card text-center">
+                                                <h2 class="card-header">${ i.fields.nama }</h2>
+                                            </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-text">${ i.fields.deskripsi }</h5>
+                                                    <p class="card-text">${ i.fields.lokasi }, ${ i.fields.kota }, ${ i.fields.provinsi }</p>
+                                                    <div class="card text-right">
+                                                        <a href="#" class="btn btn-primary">Details</a>                       
+                                                    </div>
+                                                    <hr>
+                                                    <div class="box"><div class="box">Range harga: ${ i.fields.range_harga }</div>
+                                                    <div class="box"><div class="box">Buka: ${ i.fields.buka }</div>
+                                                    <div class="box"><div class="box">Kondisi: ${ i.fields.kondisi }</div>
+                                                </div>  
+                                                        <div class="card text-center">
+                                                            <div class="card-footer text-muted">
+                                                                <a href="#" class="card-link">Review</a>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`
+                                        
+                        }
+    
+                        $('#rowId').html(data);
+                    }
+                });
+            }
+			
 	 	}
 
         $("#button").click(load_data);

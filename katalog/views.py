@@ -20,15 +20,15 @@ def show_katalog(request) :
 # @login_required(login_url="../login")
 def show_json(request):
     datakatalog = Toko.objects.all()
-    if request.method == 'GET': # this will be GET now      
-        nama =  '' # do some research what it does     
-        if   request.GET.get('search') == None:
-            nama = ''
-        else:
-            nama =  request.GET.get('search')
-        print(nama)
-        status = Toko.objects.filter(nama__icontains=nama)
-        return HttpResponse(serializers.serialize('json', status))
+    # if request.method == 'GET': # this will be GET now      
+    #     nama =  '' # do some research what it does     
+    #     if   request.GET.get('search') == None:
+    #         nama = ''
+    #     else:
+    #         nama =  request.GET.get('search')
+    #     print(nama)
+    #     status = Toko.objects.filter(nama__icontains=nama)
+    #     return HttpResponse(serializers.serialize('json', status))
 
     return HttpResponse(serializers.serialize('json', datakatalog))
 
