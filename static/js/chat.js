@@ -46,7 +46,6 @@ function getMessages(beforeId, afterId, cb) {
   if (afterId) requestUrl.searchParams.set("after", afterId);
 
   $.getJSON(requestUrl.toString(), (data) => {
-    showLoadMoreBtn = data.length == 50;
     cb(data);
   }).fail(handleRequestErr);
 }
@@ -55,17 +54,18 @@ function drawChat() {
   const chatArea = document.getElementById("chat-area");
   chatArea.innerHTML = "";
 
-  messages.map((message) => {
-    const $loadMoreBtn = $(LOAD_MORE_HTML);
-    $loadMoreBtn.click(() => {
-      getMessages(messages[0].pk, null, (data) => {
-        messages = [...data, ...messages];
-        drawChat();
-      });
+  const $loadMoreBtn = $(LOAD_MORE_HTML);
+  $loadMoreBtn.click(() => {
+    getMessages(messages[0].pk, null, (data) => {
+      messages = [...data, ...messages];
+      showLoadMoreBtn = data.length == 50;
+      drawChat();
     });
+  });
 
-    if (showLoadMoreBtn) $(chatArea).append($loadMoreBtn);
+  if (showLoadMoreBtn) $(chatArea).append($loadMoreBtn);
 
+  messages.map((message) => {
     const newDiv = document.createElement("div");
     const newContent = document.createTextNode(message.fields.pesan);
 
@@ -105,9 +105,10 @@ function submitChat(e) {
   }).fail(handleRequestErr);
 }
 
-$(function () {
+$(function() {
   getMessages(null, null, (data) => {
     messages = data;
+    showLoadMoreBtn = data.length == 50;
     drawChat();
   });
 
