@@ -32,3 +32,4 @@ class Barang(models.Model):
     harga = models.IntegerField(validators=[MinValueValidator(0)])
     deskripsi = models.TextField()
     jenis = models.CharField(max_length=16, choices=JenisBarang.choices)
+    # review = models.ForeignKey(Toko, on_delete=models.CASCADE)
