@@ -50,7 +50,7 @@ function getMessages(beforeId, afterId, cb) {
   }).fail(handleRequestErr);
 }
 
-function drawChat() {
+function drawChat(scrollDown) {
   const chatArea = document.getElementById("chat-area");
   chatArea.innerHTML = "";
 
@@ -80,6 +80,11 @@ function drawChat() {
 
     chatArea.appendChild(newDiv);
   });
+
+  if (scrollDown) {
+    const chatAreaElem = document.getElementById("chat-area")
+    chatAreaElem.scrollTo(0, chatAreaElem.scrollHeight)
+  }
 }
 
 function submitChat(e) {
@@ -98,18 +103,19 @@ function submitChat(e) {
     success: () => {
       getMessages(null, lastId, (data) => {
         messages.push(...data);
-        drawChat();
+        drawChat(true);
         $form.trigger("reset");
       });
     },
   }).fail(handleRequestErr);
+
 }
 
 $(function() {
   getMessages(null, null, (data) => {
     messages = data;
     showLoadMoreBtn = data.length == 50;
-    drawChat();
+    drawChat(true);
   });
 
   $("#chat-btn").click(submitChat);
