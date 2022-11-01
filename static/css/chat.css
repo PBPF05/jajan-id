@@ -53,6 +53,11 @@ input.sidebar-toggle:checked + #sidebar {
   }
 }
 
+#chat-area {
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
 .chat-item {
   padding: 0.5rem;
   margin-right: auto;
