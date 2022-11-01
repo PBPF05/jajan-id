@@ -46,26 +46,26 @@ function getMessages(beforeId, afterId, cb) {
   if (afterId) requestUrl.searchParams.set("after", afterId);
 
   $.getJSON(requestUrl.toString(), (data) => {
-    showLoadMoreBtn = data.length == 50;
     cb(data);
   }).fail(handleRequestErr);
 }
 
-function drawChat() {
+function drawChat(scrollDown) {
   const chatArea = document.getElementById("chat-area");
   chatArea.innerHTML = "";
 
-  messages.map((message) => {
-    const $loadMoreBtn = $(LOAD_MORE_HTML);
-    $loadMoreBtn.click(() => {
-      getMessages(messages[0].pk, null, (data) => {
-        messages = [...data, ...messages];
-        drawChat();
-      });
+  const $loadMoreBtn = $(LOAD_MORE_HTML);
+  $loadMoreBtn.click(() => {
+    getMessages(messages[0].pk, null, (data) => {
+      messages = [...data, ...messages];
+      showLoadMoreBtn = data.length == 50;
+      drawChat();
     });
+  });
 
-    if (showLoadMoreBtn) $(chatArea).append($loadMoreBtn);
+  if (showLoadMoreBtn) $(chatArea).append($loadMoreBtn);
 
+  messages.map((message) => {
     const newDiv = document.createElement("div");
     const newContent = document.createTextNode(message.fields.pesan);
 
@@ -80,6 +80,11 @@ function drawChat() {
 
     chatArea.appendChild(newDiv);
   });
+
+  if (scrollDown) {
+    const chatAreaElem = document.getElementById("chat-area")
+    chatAreaElem.scrollTo(0, chatAreaElem.scrollHeight)
+  }
 }
 
 function submitChat(e) {
@@ -98,17 +103,19 @@ function submitChat(e) {
     success: () => {
       getMessages(null, lastId, (data) => {
         messages.push(...data);
-        drawChat();
+        drawChat(true);
         $form.trigger("reset");
       });
     },
   }).fail(handleRequestErr);
+
 }
 
-$(function () {
+$(function() {
   getMessages(null, null, (data) => {
     messages = data;
-    drawChat();
+    showLoadMoreBtn = data.length == 50;
+    drawChat(true);
   });
 
   $("#chat-btn").click(submitChat);
