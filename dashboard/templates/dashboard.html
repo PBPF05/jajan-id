@@ -13,20 +13,23 @@
 
 <body>
     {% if toko is None %}
-    <img src="../assets/store.png">
-    <h3>Halo, {{ nama_pengguna }}</h3>
-    <h5>Ingin membuka toko?</h5>
-    <button>Buka toko</button>
-    <button>Logout</button>
+    <div class="card position-absolute top-50 start-50 translate-middle" id="cardStoreNone">
+        <div class="card-body text-center">
+            <img id="storeOpenIcon" src="../../static/images/store_notexist.png">
+            <h3>Halo, {{ nama_pengguna }}</h3>
+            <h5>Kamu belum punya toko nih!</h5>
+            <h6>Ingin membuka toko?</h6>
+            <button class="btn btn-success" onclick="location.href='/dashboard/buat-toko'">Buka toko</button>
+            <button class="btn btn-danger">Logout</button>
+        </div>
+
+    </div>
     {% else %}
-    <h2 id="dashboardTitle">Dashboard</h2>
+    <h2 class="fw-bolder" id="dashboardTitle">Dashboard</h2>
     <div class="d-flex flex-row mb-3" id="tokoDiv">
     </div>
-    <div id="rowBtn">
-        <button id="btnAddBarang" data-bs-toggle="modal" data-bs-target="#quickAddModal">Tambah Barang</button>
-        <button id="btnEditToko">Edit Detail</button>
-    </div>
 
+    <!-- Modal untuk Tambah Barang -->
     <div class="modal fade" id="quickAddModal" tabindex="-1" aria-labelledby="qaModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -69,8 +72,94 @@
             </div>
         </div>
     </div>
-    
-    <div class="container-flex" id="cardContainer">
+
+    <!-- Modal untuk Edit Detail Toko -->
+    <div class="modal fade" id="editDetailModal" tabindex="-1" aria-labelledby="edModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="qaModalLabel">Edit Detail</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="editDetailForm" onsubmit="return false;">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="editDetailInput1" class="form-label">Nama Toko: </label>
+                            <input type="text" class="form-control" id="editDetailInput1" name="inputNama">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDetailInput2" class="form-label">Kota: </label>
+                            <input type="text" class="form-control" id="editDetailInput2" name="inputKota">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDetailInput3" class="form-label">Provinsi: </label>
+                            <input type="text" class="form-control" id="editDetailInput3" name="inputProvinsi">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDetailInput4" class="form-label">Lokasi: </label>
+                            <input type="text" class="form-control" id="editDetailInput4" name="inputLokasi">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDetailInput5" class="form-label">Deskripsi: </label>
+                            <textarea class="form-control" id="editDetailInput5" rows="3"
+                                name="inputDeskripsi"></textarea>
+                        </div>
+                        <button class="btn btn-dark" type="submit" id="editTokoSubmit">Simpan</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk Edit Barang -->
+    <div class="modal fade" id="editBarangModal" tabindex="-1" aria-labelledby="ebModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ebModalLabel">Edit Barang</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="editBarangForm" onsubmit="return false;">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Nama Barang: </label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" name="inputNama">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput2" class="form-label">Harga Barang: </label>
+                            <input type="number" class="form-control" id="exampleFormControlInput2" name="inputHarga">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput3" class="form-label">Jenis Barang: </label>
+                            <select class="form-control" id="exampleFormControlInput3" name="inputJenis">
+                                <option value="makanan">makanan</option>
+                                <option value="minuman">minuman</option>
+                                <option value="pakaian">pakaian</option>
+                                <option value="alat_tulis">alat tulis</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Deskripsi: </label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                name="inputDeskripsi"></textarea>
+                        </div>
+                        <button class="btn btn-dark" type="submit" id="editBarangSubmit">Simpan</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-block" id="cardContainer">
+        <div class="container-inline" id="barangTitle">
+            <h2 class="fw-semibold">Barang Jualanmu</h2>
+            <button class="btn btn-light" id="btnAddBarang" data-bs-toggle="modal"
+                data-bs-target="#quickAddModal">Tambah Barang</button>
+        </div>
         <div class="row row-cols-1 row-cols-md-3" id="rowcolBarang">
         </div>
     </div>
@@ -90,9 +179,12 @@
             success: function (res) {
                 for (let item of res) {
                     htmlString += `\n<div class="card flex-fill" id = "detailToko">
-                    <h3>${item.fields.nama}</h3>
-                    <h6>${item.fields.lokasi}, ${item.fields.kota}, ${item.fields.provinsi}</h6>
-                    <p class="text-wrap">${item.fields.deskripsi}</p>
+                        <div class="card-body">
+                            <h3>${item.fields.nama}</h3>
+                            <h6>${item.fields.lokasi}, ${item.fields.kota}, ${item.fields.provinsi}</h6>
+                            <p class="text-wrap" style="margin-bottom: 0.5rem;">${item.fields.deskripsi}</p>
+                            <button class="btn" id="btnEditToko" onclick="editToko()">Edit Detail</button>
+                        </div>
                     </div>
                     <div class="card p-3 flex-fill" id="jadwalBukaToko">
                         <div class="card-body">
@@ -107,8 +199,10 @@
                     <div class="card p-3 flex-fill text-center " id="stateToko">
                         <div class="container position-relative top-50 start-50 translate-middle">
                             {% if toko.buka %}
+                            <img id="storeOpenIcon" src="../../static/images/store_open.png">
                             <h4>Tokomu sedang buka!</h4>
                             {% else %}
+                            <img id="storeOpenIcon" src="../../static/images/store_closed.png">
                             <h4>Tokomu sedang tutup :(</h4>
                             {% endif %}
                         <form action="{% url 'dashboard:state_toko' %}" class="form-check form-switch" id="formBukaTutup"
@@ -133,7 +227,7 @@
                     success: function (res) {
                         for (let item of res) {
                             cards += `\n<div class="col" id="col_card_${item.pk}">
-            <div class="card shadow p-3 mb-5 bg-body rounded position-relative top-50 start-50 translate-middle" style="width: 20rem; height: 13rem;">
+            <div class="card p-3 mb-5 bg-body rounded position-relative top-50 start-50 translate-middle" style="width: 20rem; height: 13rem;">
               <div class="card-body">
                 <h5 class="card-title">${item.fields.nama}</h5>
                 <h6 class="card-subtitle mb-2">${item.fields.jenis}</h6>
@@ -156,10 +250,10 @@
         })
     }
 
-    $("#btnBukaTutup").submit(function(e){
+    $("#btnBukaTutup").submit(function (e) {
         e.preventDefault()
 
-        let bukaTutup = $("#btnBukaTutup").hasClass("btn btn-danger") ? "Buka":"Tutup"
+        let bukaTutup = $("#btnBukaTutup").hasClass("btn btn-danger") ? "Buka" : "Tutup"
         let trim = $.trim(bukaTutup)
         let buka = !(trim == "Buka")
 
@@ -167,12 +261,12 @@
         $.ajax({
             url: "{% url 'dashboard:state_toko' %}",
             type: "POST",
-            data: {'buka': buka},
+            data: { 'buka': buka },
             dataType: "json",
-            success: function (res){
-                if(trim == "Buka"){
+            success: function (res) {
+                if (trim == "Buka") {
                     $("#btnBukaTutup").replaceWith(`<button type="submit" class="btn btn-success" id="btnBukaTutup">Buka Toko</button>`);
-                }else{
+                } else {
                     $("#btnBukaTutup").replaceWith(`<button type="submit" class="btn btn-danger" id="btnBukaTutup">Tutup Toko</button>`);
                 }
                 refreshPage();
@@ -185,25 +279,77 @@
             method: "POST",
             body: new FormData(document.querySelector('#tambahBarangForm'))
         }).then(refreshPage)
-        $("#quickAddModal").modal('hide');
+        $(".modal").modal('hide');
         $("#quickAddModal").on('hidden.bs.modal', function () {
             $("#quickAddModal form")[0].reset();
         });
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
         return false
     }
 
     function deleteBarang(pk) {
-    $.ajax({
-          type: "POST",
-          url: `/dashboard/delete/${pk}`,
-          data: { csrfmiddlewaretoken: "{{ csrf_token }}" },
-          success: function (data) {
-              $('#col_card_'+pk).remove();
-          }
-      });
-  }
+        $.ajax({
+            type: "POST",
+            url: `/dashboard/delete/${pk}`,
+            data: { csrfmiddlewaretoken: "{{ csrf_token }}" },
+            success: function (data) {
+                $('#col_card_' + pk).remove();
+            }
+        });
+    }
+
+    function editToko() {
+        $.getJSON("{% url 'dashboard:show_json' %}", function(data){
+            if (data.length == 0) return;
+
+            row = data[0];
+            const {nama, kota, provinsi, lokasi, deskripsi} = row.fields;
+
+            $('#editDetailInput1').val(nama);
+            $('#editDetailInput2').val(kota);
+            $('#editDetailInput3').val(provinsi);
+            $('#editDetailInput4').val(lokasi);
+            $('#editDetailInput5').val(deskripsi);
+
+            $('#editDetailModal').modal('show');
+        })
+    }
+
+    function editTokoSave() {
+        fetch("/dashboard/update-toko/", {
+            method: "POST",
+            body: new FormData(document.querySelector('#editDetailForm'))
+        }).then(refreshPage)
+        $(".modal").modal('hide');
+        $("#editDetailModal").on('hidden.bs.modal', function () {
+            $("#editDetailModal form")[0].reset();
+        });
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        return false
+    }
+
+    function editToko(id) {
+        $.getJSON(`/dashboard/barang/json/${id}`, function(data){
+            if (data.length == 0) return;
+
+            row = data[0];
+            const {nama, kota, provinsi, lokasi, deskripsi} = row.fields;
+
+            $('#editDetailInput1').val(nama);
+            $('#editDetailInput2').val(kota);
+            $('#editDetailInput3').val(provinsi);
+            $('#editDetailInput4').val(lokasi);
+            $('#editDetailInput5').val(deskripsi);
+
+            $('#editDetailModal').modal('show');
+        })
+    }
 
     document.getElementById("tambahSubmit").onclick = tambahBarang
+    document.getElementById("editTokoSubmit").onclick = editTokoSave
+
     refreshPage()
 </script>
 {% endblock content %}

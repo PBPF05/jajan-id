@@ -1,13 +1,21 @@
 body{
-    /* background: linear-gradient(-45deg, #ffb492, #fded23); */
+    background-color: #fffbc7;
+    /* background: linear-gradient(to right, #858585, #9c9c9c) */
 }
 p{
     margin-bottom: 0;
 }
 
+#cardStoreNone{
+    max-width: 30rem;
+    border-width: 2px;
+    box-shadow: 0 3px 0 0;
+}
+
 .card{
     border-width: 3px;
     border-color: black;
+    box-shadow: 0 3px 0 0;
 }
 
 .card:hover{
@@ -42,7 +50,7 @@ p{
 
 #stateToko{
     margin-left: 2rem;
-    background-color: #fded23;
+    background-color: white;
 }
 
 #formBukaTutup{
@@ -56,8 +64,18 @@ p{
 
 #cardContainer{
     background: #ffb942;
-    /* margin-top: 2rem;
+    margin: 2rem 0 0 0;
+    padding-top: 2rem;
+    box-shadow: 0 0 0 2px;
+    border-radius: 20px 20px 0 0;
+}
+
+#barangTitle{
+    position: relative;
     margin-left: 5rem;
-    margin-right: 5rem; */
-    padding: 0;
+    width: fit-content;
+}
+
+img{
+    max-width: 10rem;
 }
