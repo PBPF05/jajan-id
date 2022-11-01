@@ -2,75 +2,145 @@
 {% block content%}
 
 <style>
-    .modal-header{
-        background: #ffffff;
+    body {
+  font-family: Arial, sans-serif;
+  background-size: cover;
+  height: 100vh;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: Tahoma, Arial, sans-serif;
+    color: #000000;
+    margin: 80px 0;
+  }
+
+  .box {
+    width: 40%;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.2);
+    padding: 35px;
+    border: 2px solid #fff;
+    border-radius: 20px/50px;
+    background-clip: padding-box;
+    text-align: center;
+  }
+
+  .button {
+    font-size: 1em;
+    padding: 10px;
+    color: #fff;
+    border: 2px solid #06D85F;
+    border-radius: 20px/50px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+  }
+  .button:hover {
+    background: #f3ff19;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .overlay:target {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+  }
+
+  .popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popup .close:hover {
+    color: #fcff2d;
+  }
+  .popup .content {
+    max-height: 30%;
+    overflow: auto;
+  }
+
+  @media screen and (max-width: 700px){
+    .box{
+      width: 70%;
     }
-    .modal-body{
-        background: #ffffff;
+    .popup{
+      width: 70%;
     }
-    .modal-footer{
-        background: #ffffff;
-    }
-    .btn1{
-        border: none;
-        outline: none;
-        height: 40px;
-        width: 15%;
-        background-color: #fded23;
-        color: rgb(0, 0, 0);
-        border-radius: 4px;
-        font-weight: bold;
-    }
-    .btn1:hover{
-        background: #545454;
-        border: 1px solid;
-        color: rgb(0, 0, 0);
-    }
+  }
+
 </style>
 
-<!-- <script>
-  $(document).ready(function(){
-      $.get("/todolist/json", function(data) {
-        console.log(data)
-        for (i=0; i < data.length; i++){
-          $(".row").append(`<div class="card" style="width: 18rem;">
-            <div class="card text-center">
-              <h5 class="card-title">${data[i].fields.title}</h5>
-              <p class="card-text">${data[i].fields.date}</p>
-              <p class="card-text">${data[i].fields.description}</p>
-            </div></div>`)}})});
-</script> -->
+<h1>Detail</h1>
+          <div class="box">
+            <a class="button" href="#popup1">pop up</a>
+          </div>
+          
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <div style="text-align:center;">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pagedetail" data-bs-whatever="@getbootstrap">Detail</button>
-    <div class="modal fade" id="pagedetail" tabindex="-1" >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title fs-5" id="exampleModalLabel">Ini nanti nama tokonya {{ nama }}</h2>
-          </div>
-          <div class="modal-body">
-              <div class="desc">
-                <label for="message-text" class="col-form-label">Deskripsi</label>
-                <p> {{ deskripsi }}</p>
+  let http = new XMLHttpRequest();
+  http.open('get', 'initial_data.json', true);
+  http.send();
+  http.onload = function(){
+    if(this.readyState == 4 && this.status == 200){
+        let data = JSON.parse(this.responseText);
+        let output = "";
+        for(let item of data){
+          output += `<div>
+            <div id="popup1" class="overlay">
+              <div class="popup">
+                <h2>Detail</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                  <h4 class="card-text">${item.deskripsi}</h4>
+                  <br>
+                  <h4 class="card-text">Jadwal Operasi</h4>
+                  <p class="card-text">${item.hari}, ${item.jam_buka} - ${item.jam_tutup}</p>
+                  <h4 class="card-text">Jenis</h4>
+                  <p class="card-text">${item.jenis}</p>
+                  <h4 class="card-text">Rentang Harga</h4>
+                  <p class="card-text">
+                      <span>${item.harga}</span>
+                      <span>€</span>
+                  </p>
+                </div>
               </div>
-              <div class="sche">
-                <label for="message-text" class="col-form-label">Jadwal Operasi</label>
-                <p> {{ jam_buka}} - {{ jam_tutup}} </p>
-              </div>
-              <div class="price">
-                <label for="message-text" class="col-form-label">Rentang Harga</label>
-                <p> {{ harga }} </p>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn1 btn-secondary" data-bs-dismiss="modal">OK</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <br><div class="row"></div><br>
+            </div>
+          </div>`;
+        }
+        document.querySelector(".data").innerHTML = output;
+    }
+  }
 
 {% endblock content %}
