@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from detail.models import Barang
 from katalog.models import Toko
 from detail.models import JadwalOperasi
@@ -42,32 +42,25 @@ def buka_tutup_toko(request):
         return redirect('dashboard:show_dashboard')
     return HttpResponseNotFound()
 
-# def tambah_barang(request):
-#     submitted = False
-#     if(request.POST):
-#         form = TambahBarangForm(request.POST)
-#         if (form.is_valid()):
-#             print("hello world")
-#             barang = form.save(commit=False)
-#             barang.toko = 3
-#             barang.save()
-#             return HttpResponse(b"CREATED", status = 201)
-#         else:
-#             form = TambahBarangForm
-#             if 'submitted' in request.GET:
-#                 submitted = True
-#     return HttpResponseNotFound()
-
 def quick_add_Barang(request):
     if(request.POST):
-        nama_barang = request.POST.get('nama')
-        harga_barang = request.POST.get('harga')
-        jenis_barang = request.POST.get('jenis')
-        desc_barang = request.POST.get('deskripsi')
+        nama_barang = request.POST.get('inputNama')
+        harga_barang = request.POST.get('inputHarga')
+        jenis_barang = request.POST.get('inputJenis')
+        desc_barang = request.POST.get('inputDeskripsi')
         toko_barang = Toko.objects.get(pk = 3)
 
-        new_task = Barang(nama = nama_barang, harga = harga_barang, jenis = jenis_barang, 
+        new_barang = Barang(nama = nama_barang, harga = harga_barang, jenis = jenis_barang, 
         deskripsi = desc_barang, toko = toko_barang)
-        new_task.save()
+        new_barang.save()
         return HttpResponse(b"CREATED", status = 201)
+    return HttpResponseNotFound()
+
+def delete_barang(request, id):
+    context = {}
+    task = get_object_or_404(Barang,pk = id)
+    
+    if(request.POST):
+        task.delete()
+        return HttpResponse(b"DELETED", status = 201)
     return HttpResponseNotFound()

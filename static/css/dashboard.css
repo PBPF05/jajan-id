@@ -1,3 +1,25 @@
+body{
+    /* background: linear-gradient(-45deg, #ffb492, #fded23); */
+}
+p{
+    margin-bottom: 0;
+}
+
+.card{
+    border-width: 3px;
+    border-color: black;
+}
+
+.card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.btn{
+    border-width: 1px;
+    border-color: black;
+}
+
 #dashboardTitle{
     margin-top: 2rem;
     margin-left: 5rem;
@@ -7,13 +29,35 @@
     margin-top: 2rem;
     margin-left: 5rem;
     margin-right: 5rem;
-    padding: 1.5rem;
+    /* padding: 1.5rem; */
 }
 
 #detailToko{
-    max-width: 40%;
+    margin-right: 2rem;
+    padding: 1.5rem;
+}
+
+#jadwalBukaToko{
+}
+
+#stateToko{
+    margin-left: 2rem;
+    background-color: #fded23;
 }
 
 #formBukaTutup{
     padding-left: 0;
+}
+
+#rowcolBarang{
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+#cardContainer{
+    background: #ffb942;
+    /* margin-top: 2rem;
+    margin-left: 5rem;
+    margin-right: 5rem; */
+    padding: 0;
 }

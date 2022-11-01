@@ -20,7 +20,7 @@
     <button>Logout</button>
     {% else %}
     <h2 id="dashboardTitle">Dashboard</h2>
-    <div class="card shadow d-flex flex-row mb-3" id="tokoDiv">
+    <div class="d-flex flex-row mb-3" id="tokoDiv">
     </div>
     <div id="rowBtn">
         <button id="btnAddBarang" data-bs-toggle="modal" data-bs-target="#quickAddModal">Tambah Barang</button>
@@ -69,9 +69,9 @@
             </div>
         </div>
     </div>
-
-    <div class="container-fluid p-3" id="cardContainer">
-        <div class="row row-cols-2 row-cols-md-4" id="rowcolBarang">
+    
+    <div class="container-flex" id="cardContainer">
+        <div class="row row-cols-1 row-cols-md-3" id="rowcolBarang">
         </div>
     </div>
     {% endif %}
@@ -89,33 +89,38 @@
             dataType: "json",
             success: function (res) {
                 for (let item of res) {
-                    htmlString += `\n<div class="p-2 flex-fill" id = "detailToko">
+                    htmlString += `\n<div class="card flex-fill" id = "detailToko">
                     <h3>${item.fields.nama}</h3>
                     <h6>${item.fields.lokasi}, ${item.fields.kota}, ${item.fields.provinsi}</h6>
                     <p class="text-wrap">${item.fields.deskripsi}</p>
                     </div>
-                    <div class="p-3 flex-fill" id="jadwalBukaToko">
-                    <p>Jadwal Buka:<br>
+                    <div class="card p-3 flex-fill" id="jadwalBukaToko">
+                        <div class="card-body">
+                    <p class="fw-bolder">Jadwal Buka:</p>
+                    <p>
                     {% for sch in jadwal %}
                         {{sch.hari}} : {{sch.jam_buka}} - {{sch.jam_tutup}}<br>
                     {% endfor %}
                     </p>
                     </div>
-                    <div class="p-2 flex-fill text-center">
-                        {% if toko.buka %}
-                        <h4>Tokomu sedang buka!</h4>
-                        {% else %}
-                        <h4>Tokomu sedang tutup :(</h4>
-                        {% endif %}
-                    <form action="{% url 'dashboard:state_toko' %}" class="form-check form-switch" id="formBukaTutup"
-                    method="POST">
-                        {% csrf_token %}
-                        {% if toko.buka %}
-                        <button type="submit" class="btn btn-danger" id="btnBukaTutup">Tutup Toko</button>
-                        {% else %}
-                        <button type="submit" class="btn btn-success" id="btnBukaTutup">Buka Toko</button>
-                        {% endif %}
-                    </form>
+                    </div>
+                    <div class="card p-3 flex-fill text-center " id="stateToko">
+                        <div class="container position-relative top-50 start-50 translate-middle">
+                            {% if toko.buka %}
+                            <h4>Tokomu sedang buka!</h4>
+                            {% else %}
+                            <h4>Tokomu sedang tutup :(</h4>
+                            {% endif %}
+                        <form action="{% url 'dashboard:state_toko' %}" class="form-check form-switch" id="formBukaTutup"
+                        method="POST">
+                            {% csrf_token %}
+                            {% if toko.buka %}
+                            <button type="submit" class="btn btn-danger" id="btnBukaTutup">Tutup Toko</button>
+                            {% else %}
+                            <button type="submit" class="btn btn-success" id="btnBukaTutup">Buka Toko</button>
+                            {% endif %}
+                        </form>
+                        </div>
                     </div>`
                     $('#tokoDiv').html(htmlString);
                 }
@@ -128,12 +133,12 @@
                     success: function (res) {
                         for (let item of res) {
                             cards += `\n<div class="col" id="col_card_${item.pk}">
-            <div class="card shadow p-3 mb-5 bg-body rounded" style="width: 20rem; height: 13rem;">
+            <div class="card shadow p-3 mb-5 bg-body rounded position-relative top-50 start-50 translate-middle" style="width: 20rem; height: 13rem;">
               <div class="card-body">
                 <h5 class="card-title">${item.fields.nama}</h5>
                 <h6 class="card-subtitle mb-2">${item.fields.jenis}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">${item.fields.harga}</h6>
-                <p class="card-text text-truncate">${item.fields.deskripsi}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Rp${item.fields.harga}</h6>
+                <p class="card-text text-truncate" style="margin-bottom: 0.5rem;">${item.fields.deskripsi}</p>
                 <form method="post" id="delete_barang_${item.pk}" style = "display: inline-block;">
                   {% csrf_token %}
                   <input class="btn btn-light" type="button" id="editBarangSubmit" onclick="editBarang(${item.pk})" value="Edit Barang"></input>
@@ -174,16 +179,6 @@
             }
         })
     })
-    // $("#flexSwitchCheckDefault").change(function () {
-    //     $.ajax({
-    //         url: "{% url 'dashboard:state_toko' %}",
-    //         type: "POST",
-    //         dataType: "json",
-    //         success: function (res){
-    //             if($("#flexSwitchCheckDefault").ha)
-    //         }
-    //     })
-    // })
 
     function tambahBarang() {
         fetch("/dashboard/tambah/", {
@@ -196,6 +191,17 @@
         });
         return false
     }
+
+    function deleteBarang(pk) {
+    $.ajax({
+          type: "POST",
+          url: `/dashboard/delete/${pk}`,
+          data: { csrfmiddlewaretoken: "{{ csrf_token }}" },
+          success: function (data) {
+              $('#col_card_'+pk).remove();
+          }
+      });
+  }
 
     document.getElementById("tambahSubmit").onclick = tambahBarang
     refreshPage()
