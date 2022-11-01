@@ -1,0 +1,19 @@
+#dashboardTitle{
+    margin-top: 2rem;
+    margin-left: 5rem;
+}
+
+#tokoDiv{
+    margin-top: 2rem;
+    margin-left: 5rem;
+    margin-right: 5rem;
+    padding: 1.5rem;
+}
+
+#detailToko{
+    max-width: 40%;
+}
+
+#formBukaTutup{
+    padding-left: 0;
+}

@@ -1,20 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from detail.models import Barang
 from katalog.models import Toko
+from detail.models import JadwalOperasi
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from dashboard.forms import TambahBarangForm
 # Create your views here.
 
 def show_dashboard(request):
     try:
-        toko = Toko.objects.get(pk = request.user.pk)
+        # toko = Toko.objects.get(pk = request.user.pk)
+        tokoUser = Toko.objects.get(pk = 3)
+        jadwal = JadwalOperasi.objects.filter(toko = tokoUser)
     except:
-        toko = None
+        tokoUser = None
     finally:
         context = {
-            'toko' : toko,
+            'toko' : tokoUser,
+            'jadwal' : jadwal,
             'nama_pengguna' : request.user.username
         }
         return render(request, 'dashboard.html', context)
@@ -29,10 +33,14 @@ def show_barang_json(request):
 
 def buka_tutup_toko(request):
     toko = Toko.objects.get(pk = 3)
-    buka = request.POST.get('buka', None)
-    toko.buka = buka
-    toko.save()
-    return HttpResponse(b"CREATED", status = 201)
+    if(request.POST):
+        if(toko.buka):
+            toko.buka = False
+        else:
+            toko.buka = True
+        toko.save()
+        return redirect('dashboard:show_dashboard')
+    return HttpResponseNotFound()
 
 # def tambah_barang(request):
 #     submitted = False
@@ -50,15 +58,16 @@ def buka_tutup_toko(request):
 #                 submitted = True
 #     return HttpResponseNotFound()
 
-# def quick_add_Barang(request):
-#     if(request.POST):
-#         nama_barang = request.POST.get('nama')
-#         harga_barang = request.POST.get('harga')
-#         jenis_barang = request.POST.get('jenis')
-#         desc_barang = request.POST.get('deskripsi')
-#         toko_barang = request.GET.get('toko')
+def quick_add_Barang(request):
+    if(request.POST):
+        nama_barang = request.POST.get('nama')
+        harga_barang = request.POST.get('harga')
+        jenis_barang = request.POST.get('jenis')
+        desc_barang = request.POST.get('deskripsi')
+        toko_barang = Toko.objects.get(pk = 3)
 
-#         new_task = Barang(nama = nama_barang, harga = harga_barang, jenis = jenis_barang, deskripsi = desc_barang, toko = toko_barang)
-#         new_task.save()
-#         return HttpResponse(b"CREATED", status = 201)
-#     return HttpResponseNotFound()
+        new_task = Barang(nama = nama_barang, harga = harga_barang, jenis = jenis_barang, 
+        deskripsi = desc_barang, toko = toko_barang)
+        new_task.save()
+        return HttpResponse(b"CREATED", status = 201)
+    return HttpResponseNotFound()
