@@ -34,7 +34,8 @@ def show_barang_json(request):
     return HttpResponse(serializers.serialize("json", data_barang))
 
 def show_barang_json_byid(request, id):
-    data_barang = Barang.objects.get(pk = id, toko = 3)
+    data_toko = Toko.objects.get(pk = 3)
+    data_barang = Barang.objects.filter(toko = data_toko).filter(pk = id)
     return HttpResponse(serializers.serialize("json", data_barang))
 
 def buka_tutup_toko(request):
@@ -111,5 +112,27 @@ def update_toko(request):
         'lokasi':toko.lokasi,
         'deskripsi': toko.deskripsi
     }
+    return HttpResponse(b"CREATED", status = 201)
 
+def update_barang(request, id):
+    nama_barang = request.POST.get('inputEditNama')
+    harga_barang = request.POST.get('inputEditHarga')
+    jenis_barang = request.POST.get('inputEditJenis')
+    desc_barang = request.POST.get('inputEditDeskripsi')
+    toko_barang = Toko.objects.get(pk = 3)
+
+    barang = Barang.objects.filter(pk = id).get(toko = toko_barang)
+    barang.nama = nama_barang
+    barang.harga = harga_barang
+    barang.jenis = jenis_barang
+    barang.deskripsi = desc_barang
+    barang.save()
+
+    new_barang = {
+        'pk': barang.pk,
+        'nama': barang.nama, 
+        'harga': barang.harga, 
+        'jenis': barang.jenis,
+        'deskripsi': barang.deskripsi
+    }
     return HttpResponse(b"CREATED", status = 201)

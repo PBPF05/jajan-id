@@ -1,5 +1,5 @@
 from django.urls import path
-from dashboard.views import create_toko, delete_barang, show_barang_json_byid, show_dashboard, show_data_json, show_barang_json, buka_tutup_toko, quick_add_Barang, update_toko;
+from dashboard.views import create_toko, delete_barang, show_barang_json_byid, show_dashboard, show_data_json, show_barang_json, buka_tutup_toko, quick_add_Barang, update_barang, update_toko;
 
 app_name = 'dashboard'
 
@@ -13,5 +13,6 @@ urlpatterns = [
     path('delete/<id>', delete_barang, name='delete_barang'),
     path('buat-toko/', create_toko, name='create_toko'),
     path('update-toko/', update_toko, name='update_toko'),
-    path('barang/json/<id>', show_barang_json_byid, name='show_barang_json_byid')
+    path('barang/json/<id>', show_barang_json_byid, name='show_barang_json_byid'),
+    path('update-barang/<id>', update_barang, name='update_barang'),
 ]

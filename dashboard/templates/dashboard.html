@@ -125,16 +125,20 @@
                     <form method="POST" id="editBarangForm" onsubmit="return false;">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Nama Barang: </label>
-                            <input type="text" class="form-control" id="exampleFormControlInput1" name="inputNama">
+                            <label for="inputEditId" class="form-label">Id Barang: </label>
+                            <input type="text" class="form-control" id="inputEditId" name="inputEditId" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlInput2" class="form-label">Harga Barang: </label>
-                            <input type="number" class="form-control" id="exampleFormControlInput2" name="inputHarga">
+                            <label for="inputEditNama" class="form-label">Nama Barang: </label>
+                            <input type="text" class="form-control" id="inputEditNama" name="inputEditNama">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlInput3" class="form-label">Jenis Barang: </label>
-                            <select class="form-control" id="exampleFormControlInput3" name="inputJenis">
+                            <label for="inputEditHarga" class="form-label">Harga Barang: </label>
+                            <input type="number" class="form-control" id="inputEditHarga" name="inputEditHarga">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputEditJenis" class="form-label">Jenis Barang: </label>
+                            <select class="form-control" id="inputEditJenis" name="inputEditJenis">
                                 <option value="makanan">makanan</option>
                                 <option value="minuman">minuman</option>
                                 <option value="pakaian">pakaian</option>
@@ -142,11 +146,11 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Deskripsi: </label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                name="inputDeskripsi"></textarea>
+                            <label for="inputEditDeskripsi" class="form-label">Deskripsi: </label>
+                            <textarea class="form-control" id="inputEditDeskripsi" rows="3"
+                                name="inputEditDeskripsi"></textarea>
                         </div>
-                        <button class="btn btn-dark" type="submit" id="editBarangSubmit">Simpan</button>
+                        <button class="btn btn-dark" type="submit" id="editDetailBarangSubmit">Simpan</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     </form>
                 </div>
@@ -300,11 +304,11 @@
     }
 
     function editToko() {
-        $.getJSON("{% url 'dashboard:show_json' %}", function(data){
+        $.getJSON("{% url 'dashboard:show_json' %}", function (data) {
             if (data.length == 0) return;
 
             row = data[0];
-            const {nama, kota, provinsi, lokasi, deskripsi} = row.fields;
+            const { nama, kota, provinsi, lokasi, deskripsi } = row.fields;
 
             $('#editDetailInput1').val(nama);
             $('#editDetailInput2').val(kota);
@@ -330,25 +334,61 @@
         return false
     }
 
-    function editToko(id) {
-        $.getJSON(`/dashboard/barang/json/${id}`, function(data){
+    function editBarang(pk) {
+        $.getJSON(`/dashboard/barang/json/${pk}`, function (data) {
             if (data.length == 0) return;
 
             row = data[0];
-            const {nama, kota, provinsi, lokasi, deskripsi} = row.fields;
+            const { nama, harga, jenis, deskripsi } = row.fields;
 
-            $('#editDetailInput1').val(nama);
-            $('#editDetailInput2').val(kota);
-            $('#editDetailInput3').val(provinsi);
-            $('#editDetailInput4').val(lokasi);
-            $('#editDetailInput5').val(deskripsi);
+            $('#inputEditId').val(pk);
+            $('#inputEditNama').val(nama);
+            $('#inputEditHarga').val(harga);
+            $('#inputEditJenis').val(jenis);
+            $('#inputEditDeskripsi').val(deskripsi);
 
-            $('#editDetailModal').modal('show');
+            $('#editBarangModal').modal('show');
         })
     }
 
+    // function editBarangSave(pk) {
+    //     fetch(`/dashboard/update-barang/${pk}`, {
+    //         method: "POST",
+    //         body: new FormData(document.querySelector('#editBarangForm'))
+    //     }).then(refreshPage)
+    //     $(".modal").modal('hide');
+    //     $("#editBarangModal").on('hidden.bs.modal', function () {
+    //         $("#editBarangModal form")[0].reset();
+    //     });
+    //     $('body').removeClass('modal-open');
+    //     $('.modal-backdrop').remove();
+    //     return false
+    // }
+
+    $('#editBarangForm').submit(function (e) {
+        e.preventDefault();
+        let dataString = $(this).serializeArray();
+        let id = $('#inputEditId').val().trim();
+
+        $.ajax({
+            url: `/dashboard/update-barang/${id}`,
+            type: "POST",
+            data: dataString,
+            success: function () {
+                refreshPage();
+                $(".modal").modal('hide');
+                $("#editBarangModal").on('hidden.bs.modal', function () {
+                    $("#editBarangModal form")[0].reset();
+                });
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            }
+        })
+    })
+
     document.getElementById("tambahSubmit").onclick = tambahBarang
     document.getElementById("editTokoSubmit").onclick = editTokoSave
+    // document.getElementById("editDetailBarangSubmit").onclick = editBarangSave(pk);
 
     refreshPage()
 </script>
