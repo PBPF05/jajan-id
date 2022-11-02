@@ -7,63 +7,17 @@
 {% endblock meta %}
 
 {% block content %}
-<head>
-</head>
-
 <body>
-    <div class = "container-sm position-absolute top-50 start-50 translate-middle">
-        
-        <h1>Buat Toko</h1>  
-    
-            <form method="POST" >  
-                {% csrf_token %}  
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Nama Toko: </label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" name="nama" placeholder="">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Kota: </label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" name="nama" placeholder="">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Provinsi: </label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" name="nama" placeholder="">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Lokasi: </label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" name="nama" placeholder="">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Deskripsi: </label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" placeholder="Description"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label>Range Harga: </label>
-                    <div id="rangeHargaSlider">
-                    <input type="radio" name="range-harga" id="1" value="murah" required> 
-                    <label for="1" data-range-harga="murah">murah</label>
-                    <input type="radio" name="range-harga" id="2" value="sedang" required> 
-                    <label for="2" data-range-harga="sedang">sedang</label>
-                    <input type="radio" name="range-harga" id="3" value="mahal" required> 
-                    <label for="3" data-range-harga="mahal">mahal</label>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label>Kondisi: </label>
-                    <div id="kondisiSlider">
-                    <input type="radio" name="kondisi" id="1" value="sepi" required> 
-                    <label for="1" data-kondisi="sepi">sepi</label>
-                    <input type="radio" name="kondisi" id="2" value="sedang" required> 
-                    <label for="2" data-kondisi="sedang">sedang</label>
-                    <input type="radio" name="kondisi" id="3" value="ramai" required> 
-                    <label for="3" data-kondisi="ramai">ramai</label>
-                    </div>
-                </div>
-                <input class="btn btn-dark" type="submit" value="Buat Toko">
-                <button class="btn btn-danger"><a href="{% url 'dashboard:show_dashboard' %}"
-                    style="text-decoration: none; color: white;">Back</a></button>
-            </form>
-    </div> 
+    <nav></nav>
+    <div class="card position-relative top-50 start-50 translate-middle" id="containerFormBuatToko">
+        <h3>Buat Toko</h3>
+        <form class="form" method="POST" action="{% url 'dashboard:create_toko' %}" enctype="multipart/form-data">
+        {% csrf_token %} 
+        {{form}}
+        </form>
+        <button class="btn btn-light">Buat Toko</button>
+        <button class="btn btn-danger" onclick="location.href='/dashboard/'">Kembali</button>
+    </div>
 </body>
 
 {% endblock content %}
