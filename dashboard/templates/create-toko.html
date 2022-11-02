@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block meta %}
+<title>Buat Toko</title>
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock meta %}
+
+{% block content %}
+<body>
+    <nav></nav>
+    <div class="card position-relative top-50 start-50 translate-middle" id="containerFormBuatToko">
+        <h3>Buat Toko</h3>
+        <form class="form" method="POST" action="{% url 'dashboard:create_toko' %}" enctype="multipart/form-data">
+        {% csrf_token %} 
+        {{form}}
+        <button class="btn btn-light">Buat Toko</button>
+        </form>
+        <button class="btn btn-danger" onclick="location.href='/dashboard/'">Kembali</button>
+    </div>
+</body>
+
+{% endblock content %}

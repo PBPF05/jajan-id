@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        h1, h2, h5{
+            text-align: center;
+            color: #000000;
+        }
+        .grid-container{
+            display: grid;
+            grid-template-columns: auto auto auto auto;
+            gap: 10px;
+            padding: 10px;
+        }
+        .card:hover{
+            background: rgb(227, 185, 255);
+            border: 1px solid;
+            color: white;
+        }
+        .row{
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            align-content: space-between;
+        }   
+        .btn2{
+            border: none;
+            outline: none;
+            height: 50px;
+            width: 20%;
+            background-color: #545454;
+            color: rgb(0, 0, 0);
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .btn2:hover{
+            background: #545454;
+            border: 1px solid;
+            color: rgb(255, 255, 255);
+        }
+        .btn3{
+            border: none;
+            outline: none;
+            height: 50px;
+            width: 20%;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .btn3:hover{
+            background: #ffb942;
+            border: 1px solid;
+            color: #ffffff;
+        }
+        .modal-header{
+            background: #fffbc7;
+        }
+        .modal-body{
+            background: #fffbc7;
+        }
+        .modal-footer{
+            background: #fffbc7;
+        }
+    </style>
+{% endblock meta %}
+
+{% block content%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+      $.get("/dashboard/json", function(data) {
+        console.log(data)
+        for (i=0; i < data.length; i++){
+          $(".row").append(`<div class="card" style="width: 18rem;">
+            <div class="card text-center">
+              <p class="card-text">${data[i].fields.review}</p>
+            </div></div>`)}});
+      $("#create").click(function(){
+      $.post(`/detail/add_review/<int:id>/`, {
+        review : $('#rev').val(),
+        function (input){
+          $(".row").append(`<div class="card" style="width: 18rem;">
+            <div class="card text-center">
+              <p class="card-text">${input.fields.review}</p>
+            </div></div>`)
+      $('#rev').val('')
+      }})})});
+</script>
+
+    <div id="simpleModal" class="modal" tabindex="-1" role="dialog">
+      <div style="text-align:center;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title fs-5" id="exampleModalLabel"> Bagaimana kesanmu terhadap toko ini? </h2>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">Yuk, tulis disini!</label>
+                <textarea class="form-control" id="rev"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn2 btn-primary" id="create" data-bs-dismiss="modal">Submit</button>
+            <button type="button" class="btn3 btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <br><div class="row"></div><br>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            OpenBootstrapPopup();
+        };
+        function OpenBootstrapPopup() {
+            $("#simpleModal").modal('show');
+        }
+    </script>
+
+ {% endblock content %}
