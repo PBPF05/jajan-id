@@ -1,0 +1,81 @@
+body{
+    background-color: #fffbc7;
+    /* background: linear-gradient(to right, #858585, #9c9c9c) */
+}
+p{
+    margin-bottom: 1rem;
+}
+
+#cardStoreNone{
+    max-width: 30rem;
+    border-width: 2px;
+    box-shadow: 0 3px 0 0;
+}
+
+.card{
+    border-width: 3px;
+    border-color: black;
+    box-shadow: 0 3px 0 0;
+}
+
+.card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.btn{
+    border-width: 1px;
+    border-color: black;
+}
+
+#dashboardTitle{
+    margin-top: 2rem;
+    margin-left: 5rem;
+}
+
+#tokoDiv{
+    margin-top: 2rem;
+    margin-left: 5rem;
+    margin-right: 5rem;
+    /* padding: 1.5rem; */
+}
+
+#detailToko{
+    margin-right: 2rem;
+    padding: 1.5rem;
+}
+
+#jadwalBukaToko{
+}
+
+#stateToko{
+    margin-left: 2rem;
+    background-color: white;
+}
+
+#formBukaTutup{
+    padding-left: 0;
+}
+
+#rowcolBarang{
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+#cardContainer{
+    background: #ffb942;
+    margin: 2rem 0 0 0;
+    padding-top: 2rem;
+    box-shadow: 0 0 0 2px;
+    border-radius: 20px 20px 0 0;
+}
+
+#barangTitle{
+    position: relative;
+    margin-left: 5rem;
+    width: fit-content;
+}
+
+img{
+    max-width: 10rem;
+}

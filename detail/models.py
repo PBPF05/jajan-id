@@ -1,6 +1,8 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+
 from katalog.models import Toko
+
 
 # Create your models here.
 class JadwalOperasi(models.Model):
@@ -27,7 +29,13 @@ class Barang(models.Model):
         pakaian = "pakaian"
         alat_tulis = "alat_tulis"
 
+    nama = models.CharField(max_length=128)
     toko = models.ForeignKey(Toko, on_delete=models.CASCADE)
     harga = models.IntegerField(validators=[MinValueValidator(0)])
     deskripsi = models.TextField()
     jenis = models.CharField(max_length=16, choices=JenisBarang.choices)
+
+
+class ReviewBarang(models.Model):
+    barang = models.ForeignKey(Barang, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=128)

@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        h1, h2, h5{
+            text-align: center;
+            color: #000000;
+        }
+        .grid-container{
+            display: grid;
+            grid-template-columns: auto auto auto auto;
+            gap: 10px;
+            padding: 10px;
+        }
+        .card:hover{
+            background: rgb(227, 185, 255);
+            border: 1px solid;
+            color: white;
+        }
+        .row{
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            align-content: space-between;
+        }   
+        .btn1{
+            border: none;
+            outline: none;
+            height: 40px;
+            width: 10%;
+            background-color: rgb(187, 212, 255);
+            color: rgb(0, 0, 0);
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .btn1:hover{
+            background: rgb(245, 249, 173);
+            border: 1px solid;
+            color: rgb(0, 0, 0);
+        }
+        .btn2{
+            border: none;
+            outline: none;
+            height: 50px;
+            width: 20%;
+            background-color: #545454;
+            color: rgb(0, 0, 0);
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .btn2:hover{
+            background: #545454;
+            border: 1px solid;
+            color: rgb(255, 255, 255);
+        }
+        .btn3{
+            border: none;
+            outline: none;
+            height: 30px;
+            width: 20%;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .btn3:hover{
+            background: #ffb942;
+            border: 1px solid;
+            color: #ffffff;
+        }
+        .modal-header{
+            background: #ffecca;
+        }
+        .modal-body{
+            background: #ffecca;
+        }
+        .modal-footer{
+            background: #ffecca;
+        }
+    </style>
+{% endblock meta %}
+
+{% block content%}
+
+<script>
+  $(document).ready(function(){
+      $.get('/detail/jam_json/', function(dataBarang) {
+        console.log(dataBarang)
+        for (i=0; i < dataBarang.length; i++){
+          console.log(1)
+          $(".row1").append(`<div class="text">
+            <div class="text-center">
+              <h5>${dataBarang[i].fields.deskripsi} yang dijual dengan harga ${dataBarang[i].fields.harga}</h5>
+            </div></div>`)}})});
+      $.get('/detail/barang_json/', function(dataJam) {
+        console.log(dataJam)
+        for (i=0; i < dataJam.length; i++){
+          $(".row2").append(`<div class="text">
+            <div class="text-center">
+              <h5>${dataJam[i].fields.hari}, dari pukul ${dataJam[i].fields.jam_buka} - ${dataJam[i].fields.jam_tutup}</h5>
+            </div></div>`)}});
+</script>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <div id="simpleModal" class="modal" tabindex="-1" role="dialog">
+      <div style="text-align:center;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalLabel">Detail</h2>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label" >Deskripsi Toko</label>
+                <div class = "row1"></div>
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">Jadwal Operasional</label>
+                <div class = "row2"></div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn3 btn-secondary" data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+</body>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+      window.onload = function () {
+          OpenBootstrapPopup();
+      };
+      function OpenBootstrapPopup() {
+          $("#simpleModal").modal('show');
+      }
+  </script>
+
+ {% endblock content %}
