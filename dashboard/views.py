@@ -178,3 +178,12 @@ def update_jadwal(request, id):
         'jam_tutup': jadwal.jam_tutup,
     }
     return HttpResponse(b"CREATED", status = 201)
+
+def delete_jadwal(request, id):
+    context = {}
+    jadwal = get_object_or_404(JadwalOperasi,pk = id)
+    
+    if(request.POST):
+        jadwal.delete()
+        return HttpResponse(b"DELETED", status = 201)
+    return HttpResponseNotFound()

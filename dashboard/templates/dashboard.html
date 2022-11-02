@@ -582,6 +582,18 @@
         return false
     }
 
+    function hapusJadwal(pk) {
+        $.ajax({
+            type: "POST",
+            url: `/dashboard/delete-jadwal/${pk}`,
+            data: { csrfmiddlewaretoken: "{{ csrf_token }}" },
+            success: function (data) {
+                $('#row_' + pk).remove();
+                refreshJadwal();
+            }
+        });
+    }
+
     document.getElementById("tambahSubmit").onclick = tambahBarang
     document.getElementById("editTokoSubmit").onclick = editTokoSave
     document.getElementById("tambahJadwalSubmit").onclick = tambahJadwal
