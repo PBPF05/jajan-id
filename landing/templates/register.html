@@ -1,22 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block meta %}
 <title>Register</title>
-{% endblock meta %} {% block content %}
-<style>
-  .bg-image-vertical {
-    position: relative;
-    overflow: hidden;
-    background-repeat: no-repeat;
-    background-position: right center;
-    background-size: auto 100%;
-  }
-
-  @media (min-width: 1025px) {
-    .h-custom-2 {
-      height: 100%;
-    }
-  }
-</style>
-
+{% endblock meta %} {% block content %} 
 <body>
   <section class="vh-100">
     <div class="container-fluid">
@@ -37,6 +21,7 @@
                   <div>
                     <p style="font-size: 2.6em;">Register</p>
                   </div>
+                  <p class="text-black-50 mb-3">Please enter your username, email, and password!</p>
                   <div>
                     <input style="text-align:center; font-size: 1.2em;" type="text" name="username" placeholder="Username"
                       class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
@@ -57,20 +42,23 @@
                   <div>
                     <p>Are you a seller?</p>
 
-                    <input type="radio" id="no" name="seller_choice" value="yes" required />
+                    <input type="radio" id="yes" name="seller_choice" value="yes" required />
                     <label for="yes">Yes</label>
-                    <input type="radio" id="yes" name="seller_choice" value="no" required />
+                    <input type="radio" id="no" name="seller_choice" value="no" required />
                     <label for="no">No</label>
                   </div>
-                  <div>
-                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded border-2 border-neutral-500"
-                      type="submit" style="font-size: 1.5em;">Register</button>
+
+                  <div id="toko-form-container">
+
+                  </div>
+                    <div>
+                    <button class="btn btn-outline-dark btn-lg px-4" type="submit">Register</button>
                   </div>
               <p>
                 Already have an account?
-                <a href="{% url 'landing:login' %}" class="link-info"
-                  >Login here</a
-                >
+                <a href="{% url 'landing:login' %}" class="link-info">
+                  Login here
+                </a>
               </p>
             </form>
           </div>
@@ -79,5 +67,65 @@
     </div>
   </section>
 </body>
+
+<!-- <script> src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+  
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async()=> {
+    const yesRadio = document.getElementById("yes")
+    const noRadio = document.getElementById("no")
+    const tokoFormContainer = document.getElementById("toko-form-container")
+
+    console.log(tokoFormContainer)
+
+    yesRadio.addEventListener("click", async ()=> {
+      tokoFormContainer.innerHTML = `
+      <h3> Data Toko </h3>
+      <div>
+        <input style="text-align:center; font-size: 1.2em;" type="text" name="username" placeholder="Nama Toko"
+          class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+      </div>
+      <div>
+        <input style="text-align:center; font-size: 1.2em;" type="text" name="email" placeholder="Kota"
+          class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+      </div>
+      <div>
+        <input style="text-align:center; font-size: 1.2em;" type="password" name="password" placeholder="Provinsi"
+          class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+      </div>
+      <div>
+        <input style="text-align:center; font-size: 1.2em;" type="text" name="email" placeholder="Lokasi"
+          class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+      </div>
+      <div>
+        <input style="text-align:center; font-size: 1.2em;" type="text" name="email" placeholder=Deskripsi"
+          class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+      </div>
+      <div>
+        <input style="text-align:center; font-size: 1.2em;" type="text" name="email" placeholder="Range Harga"
+          class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+      </div>
+      <div>
+        <input style="text-align:center; font-size: 1.2em;" type="text" name="email" placeholder="Kota"
+          class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+      </div>
+      <div>
+        <input style="text-align:center; font-size: 1.2em;" type="text" name="email" placeholder="Kota"
+          class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+      </div>
+      <div>
+        <input style="text-align:center; font-size: 1.2em;" type="text" name="email" placeholder="Kota"
+          class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+      </div>
+      `
+    })
+    noRadio.addEventListener("click", async ()=> {
+      tokoFormContainer.innerHTML = ""
+    })
+  })
+  
+</script> -->
 
 {% endblock content %}

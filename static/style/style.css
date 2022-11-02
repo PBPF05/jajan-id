@@ -1,22 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Changa+One:ital@1&family=Open+Sans:wght@600&display=swap');
-* {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@600&display=swap');
+
 .h1{
   padding-top: 7rem;
   padding-bottom: 5.5rem;
   text-align: left;
-  font-size: 190px;
+  font-size: 19px;
 }
 
 #title{
-  top: 20px;
-  bottom : 100px;
-  left : 50px;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 65px;
 }
 
 :root {
@@ -40,11 +34,9 @@
 .middle h1 {
   font-size: 70px;
 }
-
-#features{
-  font-family: 'Open Sans', sans-serif;
+.features{
+  font-family: "Poppins", sans-serif;
 }
-
 #features{
   border-radius: 4px;
   background: #fff;
@@ -52,9 +44,15 @@
   transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
   padding: 14px 80px 18px 36px;
   cursor: pointer;
+  font-family: "Poppins", sans-serif;
 }
 
 #features:hover{
   transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.nav-link{
+  color: white;
+  font-family: "Poppins", sans-serif;
 }

@@ -15,66 +15,95 @@
 
     <!-- Banner Image  -->
     <div
-      class="banner-image w-100 d-flex justify-content-center align-items-center position-relative "
-      style="min-height: 100vh;"
+      class="banner-image w-100 d-flex align-items-center position-relative"
+      style="min-height: 100vh; background-color: #ffb942;"
       
     >
-      <img class="h-100 w-100 position-absolute" src="{% static 'style/images/jajan3.jpg' %}" alt="" >
+      <img class="position-absolute" src="https://cdn-icons-png.flaticon.com/512/1390/1390737.png" alt="" style="right: 130px; width: 450px; height: 450px;" >
       
-      <div class="content text-center" style="z-index : 10">
+      <div class="content text-left" style="z-index : 10; margin-left: 90px;">
         
-        <h1 class="text-white" id="title">NEW WAY TO JAJAN</h1>
+        <h1 id="title">Delightful apps crafted with love</h1>
 
       </div>
     </div>
 
-        <div class="container text-center col gap-5" style="width: 47rem ; height: 50rem;">
-          <div class="mt-5  ">
+        <div class="container text-center col gap-5" style="width:100%;">
+          <div class="mt-5">
             <br>
             <br>
             <br>
-            <h1>
+            <h1 class="features"><b>
               Features
+            </b>
             </h1>
             <h5 style="color:rgba(142, 139, 139, 0.515);">Here are some of our features.</h5>
           </div>
 
           <div class=" row gap-5 mx-2 py-4">
             <div class="col border py-5 px-4" id="features">
+              <i class="bi bi-grid" style="font-size: 3rem; left:0"></i>
               <h4 align="left"><b>
               KATALOG
               </h4></b>
               <p align="left">Pada fitur ini akan ditampilkan semua toko yang sudah terdaftar pada database kami.</p>
             </div>
             <div class="col border py-5 px-4" id="features">
+              <i class="bi bi-menu-button-wide-fill" style="font-size: 3rem;"></i>
               <h4 align="left">
                 <b>DASHBOARD</b>
               </h4>
               <p align="left">Fitur ini akan dimiliki khusus bagi para penjual. Penjual dapat membuka toko, dan mengatur data yang
                 akan ditampilkan. </p>
             </div>
-          </div>
+            <div class="col border py-5 px-4" id="features">
+              <i class="bi bi-chat-left-text" style="font-size: 3rem; left: 3px"></i>
+              <h4 align="left">
+                <b>CHAT</b>
+              </h4>
+              <p align="left">Pada fitur ini, pengguna dan penjual dapat berkomunikasi melalui halaman chatting.</p>
+            </div>
+            <div class="col border py-5 px-4" id="features">
+              <i class="bi bi-search" style="font-size: 3rem;"></i>
+              <h4 align="left">
+                <b>DETAILS</b>
+              </h4>
+              <p align="left">Pada fitur ini, pengguna dapat melihat detail dari toko yang dipilih dan menampilkan barang yang dijual oleh toko.
+                Pengguna juga dapat memberikan rating kepada toko.
+              </p>
+            </div>
+          </div> 
+        </div>
 
-            <div class=" row gap-5 mx-2 py-3">
-              <div class="col border py-5 px-4" id="features">
-                <h4 align="left">
-                  <b>CHAT</b>
-                </h4>
-                <p align="left">Pada fitur ini, pengguna dan penjual dapat berkomunikasi melalui halaman chatting.</p>
-              </div>
-              <div class="col border py-5 px-4" id="features">
-                <h4 align="left">
-                  <b>DETAILS</b>
-                </h4>
-                <p align="left">Pada fitur ini, pengguna dapat melihat detail dari toko yang dipilih dan menampilkan barang yang dijual oleh toko.
-                  Pengguna juga dapat memberikan rating kepada toko.
-                </p>
+        <br><br><br><br><br><br><br><br>
+        <!-- <div class="col" style="width: 100% ; height: 500px; background-color: #f7f9fb  ;">
+          <div><h1 align="right" style="top: 30px;">OUR HOPES</h1></div>
+          <div>
+          <img class="text-left" src="https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2020/01/Street-Portraits-vs-Street-Photography-05.jpg?fit=1500%2C1000&ssl=1" 
+          alt="" style="left: 0px; width: 750px; height: 500px; ;" >   
+          </div> -->
+
+        <div class="split">
+          <div class="area-1">
+            <img class="text-left" src="https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2020/01/Street-Portraits-vs-Street-Photography-05.jpg?fit=1500%2C1000&ssl=1" 
+            alt="" style="left: 0px; width: 750px; height: 500px; ;">
+          </div>
+          <div class="area-2">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="text-container">
+                    <h2>OUR HOPES</h2>
+                  </div>
+                </div>              
               </div>
             </div>
-          </div>  
+          </div>
         </div>
-      </div>
-    </div>
+        <br><br><br><br><br><br><br><br>
+
+
+
 
     <script type="text/javascript">
       var nav = document.querySelector('nav');

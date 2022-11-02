@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 import datetime
 from django.contrib import messages
 from django.shortcuts import redirect
+from project_django.middleware import inject_toko
 from .models import User
 
 # Create your views here.
@@ -27,11 +28,12 @@ def register(request):
         elif (password == repeat_password):
             user = User.objects.create_user(username=username, email=email, password=password)
             if (request.POST.get("seller_choice") == "yes"):
-                user.is_seller = True
-                seller_profile = DoctorProfile.objects.create(profile = user_profile)
-                seller_profile.save()
+                Toko.objects.create()
+                inject_toko(user)
+                print("masuk ke sini")
+                request.user.is_seller = True
             user.save()
-            user_profile.save()
+            print(request.user.is_seller)
             return redirect("landing:login")
         else:
             messages.info(request, "Password and repeat password is different!")
