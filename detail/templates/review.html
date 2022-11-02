@@ -4,10 +4,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
 
     <style>
-        *{
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
+        body {
+            background-color: #fded23;
         }
         h1, h2, h5{
             text-align: center;
@@ -35,15 +33,15 @@
             outline: none;
             height: 50px;
             width: 20%;
-            background-color: #545454;
-            color: rgb(0, 0, 0);
+            background-color: #ffffff;
+            color: #545454;
             border-radius: 4px;
             font-weight: bold;
         }
         .btn2:hover{
-            background: #545454;
+            background: #ffffff;
             border: 1px solid;
-            color: rgb(255, 255, 255);
+            color: #545454;
         }
         .btn3{
             border: none;
@@ -61,13 +59,13 @@
             color: #ffffff;
         }
         .modal-header{
-            background: #fffbc7;
+            background: #ffb942;
         }
         .modal-body{
-            background: #fffbc7;
+            background: #ffb942;
         }
         .modal-footer{
-            background: #fffbc7;
+            background: #ffb942;
         }
     </style>
 {% endblock meta %}
@@ -113,7 +111,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn2 btn-primary" id="create" data-bs-dismiss="modal">Submit</button>
-            <button type="button" class="btn3 btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <a href="javascript:history.back()">Cancel</a>
           </div>
         </div>
       </div>
@@ -122,7 +120,7 @@
 
     <br><div class="row"></div><br>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript">
         window.onload = function () {
