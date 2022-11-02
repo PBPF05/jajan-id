@@ -30,13 +30,9 @@ def register(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
             if (request.POST.get("seller_choice") == "yes"):
-                # Toko.objects.create()
-                # inject_toko(user  )
-
                 is_seller = True
             profile = Profile.objects.create(user=user, name=username, email=email, is_seller=is_seller)
             profile.save()
-
             print(profile.is_seller)
             print(profile.user)
             print(user.profile)
