@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    body {
+        margin: 0px;
+        padding: 0px;
+        background: radial-gradient(#ffb942, #fded23);
+    }
+    
+    .boxContainer{
+        margin: auto;
+        margin-top: 3%;
+        position: relative;
+        width: 300px;
+        height: 50px;
+        border: 5px solid #545454 ;
+        padding: 0px 10px;
+        border-radius: 50px;
+    }
+  
+    .search-bar{
+        height: 100%;
+        width: 100%;
+        vertical-align: middle;
+
+    }
+
+    .search {
+        background: transparent;
+        border: none;
+        height: 50%;
+        padding: 0px 5px;
+        border-radius: 70px;
+    }
+
+    .btn btn-link{
+        background: #ffb942!important;
+        color: #fded23;    
+    }
+
+    .card {
+        background: rgb(246, 233, 217);
+    }
+
+    .card:hover{
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 10px 10px rgba(0,0,0,.06);
+        background: #ffb942;
+    }
+
+    .row {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 70px;
+        margin-right: 70px;
+    }
+
+    h2 {
+        color: #ffb942;
+    }
+
+    a {
+        background: #ffb942!important;
+    }
+    
+    button {
+        color: #545454!important;
+    }
+</style>
+
+<div class="boxContainer" id="form-search">
+    <form action="" name="myform" method="GET" class="search-bar">
+        <label><input type="text" name="search" id="search" class="search" placeholder="Search Toko"></label>
+        <button class="btn btn-link" id="search">Search</button>
+    </form>
+</div>
+<hr>
+<div class="row" id="rowId"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function(){
+        
+		load_data();
+
+		function load_data()
+		{
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            console.log(urlParams.get('search'));
+            if (urlParams.get('search') == null) {
+                $.ajax({
+                    url:`/katalog/json/`,
+                    type:"GET",
+                    dataType: 'json',
+                    success:function(response)
+                    {
+                        let data = ""
+                        for (let i of response){
+                            console.log(0)
+                            data += `<div >
+                                        <div class="card w-65">
+                                            <div class="card text-center">
+                                                <h2 class="card-header">${ i.fields.nama }</h2>
+                                            </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-text">${ i.fields.deskripsi }</h5>
+                                                    <p class="card-text">${ i.fields.lokasi }, ${ i.fields.kota }, ${ i.fields.provinsi }</p>
+                                                    <div class="card text-right">
+                                                        <a href="{% url 'detail:detail_toko' %}" class="btn btn-warning">Details</a>                       
+                                                    </div>
+                                                    <hr>
+                                                    <div class="box"><div class="box">Range harga: ${ i.fields.range_harga }</div>
+                                                    <div class="box"><div class="box">Buka: ${ i.fields.buka }</div>
+                                                    <div class="box"><div class="box">Kondisi: ${ i.fields.kondisi }</div>
+                                                </div>  
+                                                        <div class="card text-center">
+                                                            <div class="card text-right">
+                                                                <a href="{% url 'detail:review' %}" class="btn btn-warning">Review</a>                       
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>`
+                                        
+                        }
+    
+                        $('#rowId').html(data);
+                    }
+                });
+            } else {
+                $.ajax({
+                    url:`/katalog/json/${urlParams.get('search')}`,
+                    type:"GET",
+                    dataType: 'json',
+                    success:function(response)
+                    {
+                        let data = ""
+                        for (let i of response){
+                            console.log(0)
+                            data += `<div>
+                                        <div class="card w-65">
+                                            <div class="card text-center">
+                                                <h2 class="card-header">${ i.fields.nama }</h2>
+                                            </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-text">${ i.fields.deskripsi }</h5>
+                                                    <p class="card-text">${ i.fields.lokasi }, ${ i.fields.kota }, ${ i.fields.provinsi }</p>
+                                                    <div class="card text-right">
+                                                        <a href="{% url 'detail:detail_toko' %}" class="btn btn-warning">Details</a>                       
+                                                    </div>
+                                                    <hr>
+                                                    <div class="box"><div class="box">Range harga: ${ i.fields.range_harga }</div>
+                                                    <div class="box"><div class="box">Buka: ${ i.fields.buka }</div>
+                                                    <div class="box"><div class="box">Kondisi: ${ i.fields.kondisi }</div>
+                                                </div>  
+                                                        <div class="card text-center">
+                                                            <div class="card text-right">
+                                                                <a href="{% url 'detail:review' %}" class="btn btn-warning">Review</a>                       
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>`
+                                        
+                        }
+                        $('#rowId').html(data);
+                    }
+                });
+            }
+			
+	 	}
+
+        $("#button").click(load_data);
+	});
+</script>
+
+{% endblock content %}
