@@ -32,7 +32,7 @@ def show_data_json(request):
     return HttpResponse(serializers.serialize("json", data_toko))
 
 def show_barang_json(request):
-    data_toko = Toko.objects.filter(pk = request.user.pk)
+    data_toko = Toko.objects.get(pk = request.user.pk)
     data_barang = Barang.objects.filter(toko = data_toko)
     return HttpResponse(serializers.serialize("json", data_barang))
 
