@@ -19,6 +19,12 @@
         border-radius: 50px;
     }
   
+    footer {
+        width: 100%;
+        position:fixed;
+        bottom:0;
+    }
+
     .search-bar{
         height: 100%;
         width: 100%;
@@ -41,6 +47,7 @@
 
     .card {
         background: rgb(246, 233, 217);
+        position: relative;
     }
 
     .card:hover{
@@ -82,10 +89,10 @@
 <script>
     $(document).ready(function(){
         
-		load_data();
+  load_data();
 
-		function load_data()
-		{
+  function load_data()
+  {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             console.log(urlParams.get('search'));
@@ -173,11 +180,11 @@
                     }
                 });
             }
-			
-	 	}
+   
+   }
 
         $("#button").click(load_data);
-	});
+ });
 </script>
 
 {% endblock content %}
