@@ -20,9 +20,8 @@
             <h5>Kamu belum punya toko nih!</h5>
             <h6>Ingin membuka toko?</h6>
             <button class="btn btn-success" onclick="location.href='/dashboard/buat-toko'">Buka toko</button>
-            <button class="btn btn-danger">Logout</button>
+            <button class="btn btn-danger" onclick="location.href='/logout/'">Logout</button>
         </div>
-
     </div>
     {% else %}
     <h2 class="fw-bolder" id="dashboardTitle">Dashboard</h2>
@@ -124,10 +123,7 @@
                 <div class="modal-body">
                     <form method="POST" id="editBarangForm" onsubmit="return false;">
                         {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="inputEditId" class="form-label">Id Barang: </label>
-                            <input type="text" class="form-control" id="inputEditId" name="inputEditId" disabled>
-                        </div>
+                        <input type="hidden" class="form-control" id="inputEditId" name="inputEditId" disabled>
                         <div class="mb-3">
                             <label for="inputEditNama" class="form-label">Nama Barang: </label>
                             <input type="text" class="form-control" id="inputEditNama" name="inputEditNama">
@@ -158,6 +154,115 @@
         </div>
     </div>
 
+    <!-- Modal untuk Set Jadwal -->
+    <div class="modal fade" id="setJadwalModal" tabindex="-1" aria-labelledby="sjModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="sjModalLabel">Atur Jadwal</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" id="tableJadwal">
+                        <tr id="tableJadwalRowHead">
+                            <thead>
+                                <th>Hari</th>
+                                <th>Jam Buka</th>
+                                <th>Jam Tutup</th>
+                                <th>Edit</th>
+                                <th>Hapus</th>
+                            </thead>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-dark" id="btnTambahJadwal" data-bs-target="#tambahJadwalModal" data-bs-toggle="modal">Tambah Jadwal</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="tutupModalSetJadwal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk Edit Jadwal -->
+    <div class="modal fade" id="editJadwalModal" tabindex="-1" aria-labelledby="ejModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ejModalLabel">Edit Detail</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="editJadwalForm" onsubmit="return false;">
+                        {% csrf_token %}
+                        <input type="hidden" class="form-control" id="inputEditIdJadwal" name="inputEditIdJadwal" disabled>
+                        <div class="mb-3">
+                            <label for="inputEditHari" class="form-label">Hari:</label>
+                            <select class="form-control" id="inputEditHari" name="inputEditHari">
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jumat">Jumat</option>
+                                <option value="Sabtu">Sabtu</option>
+                                <option value="Minggu">Minggu</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputEditJamBuka" class="form-label">Jam Buka: </label>
+                            <input type="number" min="1" max = "24"class="form-control" id="inputEditJamBuka" name="inputEditJamBuka">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputEditJamTutup" class="form-label">Jam Tutup: </label>
+                            <input type="number" min="1" max = "24"class="form-control" id="inputEditJamTutup" name="inputEditJamTutup">
+                        </div>
+                        <button class="btn btn-dark" type="submit" id="editJadwalSubmit">Simpan</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk Tambah Jadwal -->
+    <div class="modal fade" id="tambahJadwalModal" tabindex="-1" aria-labelledby="tjModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="tjModalLabel">Edit Detail</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="tambahJadwalForm" onsubmit="return false;">
+                        {% csrf_token %}
+                        <input type="hidden" class="form-control" id="inputIdJadwal" name="inputIdJadwal" disabled>
+                        <div class="mb-3">
+                            <label for="inputHari" class="form-label">Hari:</label>
+                            <select class="form-control" id="inputHari" name="inputHari">
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jumat">Jumat</option>
+                                <option value="Sabtu">Sabtu</option>
+                                <option value="Minggu">Minggu</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputJamBuka" class="form-label">Jam Buka: </label>
+                            <input type="number" min="1" max = "24"class="form-control" id="inputJamBuka" name="inputJamBuka">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputJamTutup" class="form-label">Jam Tutup: </label>
+                            <input type="number" min="1" max = "24"class="form-control" id="inputJamTutup" name="inputJamTutup">
+                        </div>
+                        <button class="btn btn-dark" type="submit" id="tambahJadwalSubmit">Simpan</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-block" id="cardContainer">
         <div class="container-inline" id="barangTitle">
             <h2 class="fw-semibold">Barang Jualanmu</h2>
@@ -174,7 +279,9 @@
     integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" ß
     crossorigin="anonymous"></script>
 <script>
-    function refreshPage() {
+    let countSetJadwalCall;
+
+    function refreshDetailToko(){
         let htmlString = ``;
         $.ajax({
             url: "{% url 'dashboard:show_json' %}",
@@ -192,13 +299,13 @@
                     </div>
                     <div class="card p-3 flex-fill" id="jadwalBukaToko">
                         <div class="card-body">
-                    <p class="fw-bolder">Jadwal Buka:</p>
-                    <p>
-                    {% for sch in jadwal %}
-                        {{sch.hari}} : {{sch.jam_buka}} - {{sch.jam_tutup}}<br>
-                    {% endfor %}
-                    </p>
-                    </div>
+                            {% if jadwal is not None %}
+                            <p class="fw-bolder">Jadwal Buka:</p>
+                            <p id = "listJadwalBuka" style="margin-bottom: 1rem;">
+                            </p>
+                            {% endif %}
+                            <button class="btn" id="btnSetJadwal" onclick="detailJadwalToko()">Set Jadwal Toko</button>
+                        </div>
                     </div>
                     <div class="card p-3 flex-fill text-center " id="stateToko">
                         <div class="container position-relative top-50 start-50 translate-middle">
@@ -222,8 +329,27 @@
                     </div>`
                     $('#tokoDiv').html(htmlString);
                 }
+            }
+        })    
+    }
 
-                let cards = ``;
+    function refreshJadwal(){
+        let htmlString = ``;
+        $.ajax({
+            url: "{% url 'dashboard:show_jadwal_json' %}",
+            type: "GET",
+            dataType: "json",
+            success: function (res) {
+                for (let item of res) {
+                    htmlString += `${item.fields.hari} : ${item.fields.jam_buka} - ${item.fields.jam_tutup}<br>`
+                    $('#listJadwalBuka').html(htmlString);
+                }
+            }
+        })
+    }
+
+    function refreshBarang(){
+        let cards = ``;
                 $.ajax({
                     url: "{% url 'dashboard:show_barang_json' %}",
                     type: "GET",
@@ -249,9 +375,14 @@
                         }
                     }
                 })
+    }
 
-            }
-        })
+    function refreshPage() {
+        $("#tokoDiv").empty();
+        countSetJadwalCall = 0;
+        refreshDetailToko();
+        refreshJadwal();
+        refreshBarang();
     }
 
     $("#btnBukaTutup").submit(function (e) {
@@ -351,20 +482,6 @@
         })
     }
 
-    // function editBarangSave(pk) {
-    //     fetch(`/dashboard/update-barang/${pk}`, {
-    //         method: "POST",
-    //         body: new FormData(document.querySelector('#editBarangForm'))
-    //     }).then(refreshPage)
-    //     $(".modal").modal('hide');
-    //     $("#editBarangModal").on('hidden.bs.modal', function () {
-    //         $("#editBarangModal form")[0].reset();
-    //     });
-    //     $('body').removeClass('modal-open');
-    //     $('.modal-backdrop').remove();
-    //     return false
-    // }
-
     $('#editBarangForm').submit(function (e) {
         e.preventDefault();
         let dataString = $(this).serializeArray();
@@ -386,9 +503,100 @@
         })
     })
 
+    function detailJadwalToko() {
+        countSetJadwalCall++;
+        $.ajax({
+            url: "{% url 'dashboard:show_jadwal_json' %}",
+            type: 'get',
+            dataType: 'json',
+            error: function(data){
+                console.log('Error');
+            },
+            success: function(data){
+                // console.log(data);
+                var html_to_append = '';
+                $.each(data, function(i, item){
+                    html_to_append += '<tr id="row_' + item.pk + '">' +'<th>' + item.fields.hari + '</th>' + 
+                    '<th>' + item.fields.jam_buka + '</th>' +
+                    '<th>' + item.fields.jam_tutup + '</th>' + 
+                    '<th>' + '<button class= "btn btn-light" onclick="editJadwal(' + item.pk + ')">Edit</button>' + '</th>' +
+                    '<th>' + '<button class= "btn btn-danger" onclick="hapusJadwal(' + item.pk + ')">Hapus</button>' + '</th>' +
+                    '</tr>';
+                });
+                if(countSetJadwalCall == 1){
+                    $('#tableJadwalRowHead').after(html_to_append);
+                }
+            }
+        });
+        $('#setJadwalModal').modal('show');
+    }
+
+    function editJadwal(pk) {
+        $.getJSON(`/dashboard/jadwal/json/${pk}`, function (data) {
+            if (data.length == 0) return;
+
+            row = data[0];
+            const { hari, jam_buka, jam_tutup } = row.fields;
+
+            $('#inputEditIdJadwal').val(pk);
+            $('#inputEditHari').val(hari);
+            $('#inputEditJamBuka').val(jam_buka);
+            $('#inputEditJamTutup').val(jam_tutup);
+
+            $('#editJadwalModal').modal('show');
+        })
+    }
+
+    $('#editJadwalForm').submit(function (e) {
+        e.preventDefault();
+        let dataString = $(this).serializeArray();
+        let id = $('#inputEditIdJadwal').val().trim();
+
+        $.ajax({
+            url: `/dashboard/update-jadwal/${id}`,
+            type: "POST",
+            data: dataString,
+            success: function () {
+                refreshPage();
+                $(".modal").modal('hide');
+                $("#editJadwalModal").on('hidden.bs.modal', function () {
+                    $("#editJadwalModal").reset();
+                });
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            }
+        })
+    })
+
+    function tambahJadwal() {
+        fetch("/dashboard/tambah-jadwal/", {
+            method: "POST",
+            body: new FormData(document.querySelector('#tambahJadwalForm'))
+        }).then(refreshPage)
+        $(".modal").modal('hide');
+        $("#tambahJadwalModal").on('hidden.bs.modal', function () {
+            $("#tambahJadwalModal form")[0].reset();
+        });
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        return false
+    }
+
+    function hapusJadwal(pk) {
+        $.ajax({
+            type: "POST",
+            url: `/dashboard/delete-jadwal/${pk}`,
+            data: { csrfmiddlewaretoken: "{{ csrf_token }}" },
+            success: function (data) {
+                $('#row_' + pk).remove();
+                refreshJadwal();
+            }
+        });
+    }
+
     document.getElementById("tambahSubmit").onclick = tambahBarang
     document.getElementById("editTokoSubmit").onclick = editTokoSave
-    // document.getElementById("editDetailBarangSubmit").onclick = editBarangSave(pk);
+    document.getElementById("tambahJadwalSubmit").onclick = tambahJadwal
 
     refreshPage()
 </script>
