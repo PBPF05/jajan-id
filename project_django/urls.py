@@ -24,5 +24,4 @@ urlpatterns = [
     # path("", include("katalog.urls")),
     path("detail/", include("detail.urls")),
     path("dashboard/", include("dashboard.urls")),
-
 ]

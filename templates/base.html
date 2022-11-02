@@ -1,5 +1,4 @@
 {% load static %}
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   
@@ -23,15 +22,13 @@
       integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
       crossorigin="anonymous"
     ></script>
-
     <link rel="stylesheet" href="{% static 'style/style.css' %}" />
-
     {% block meta %}
     {% endblock meta %}
   </head>
 
   <body>
-    {% if request.path != "/login/" and request.path != "/register/" %}
+    {% if request.path != "/login/" and request.path != "/register/" and '/chat' not in request.path %}
     <!-- Navbar  -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark p-md-3">
       <div class="container">
@@ -54,9 +51,11 @@
             <li class="nav-item">
               <a class="nav-link" href="#" >Home</a>
             </li>
+            {% if request.user.profile.is_seller == True %}
             <li class="nav-item">
-              <a class="nav-link" href="#">Dashboard</a>
+              <a class="nav-link" href="/dashboard/">Dashboard</a>
             </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="#">Katalog</a>
             </li>
@@ -86,7 +85,7 @@
     {% endblock content %}
     <!-- Remove the container if you want to extend the Footer to full width. -->
   
-  
+  {% if '/chat' not in request.path %} 
   <footer class="text-center text-lg-start" style="background-color: #545454;">
     {% if request.path != "/login/" and request.path != "/register/" %}
     <div class="container d-flex justify-content-center py-5">
@@ -105,11 +104,10 @@
     <!-- Copyright -->
     {% endif %}
   </footer>
+  {% endif %}
   
 <!-- End of .container -->
   <!-- End Footer -->
   </body>
-
   
 </html>
-
