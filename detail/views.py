@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+# from detail.forms import reviewform
 
 # Create your views here.
 # @login_required(login_url="../login")
@@ -24,66 +25,15 @@ def detail_toko(request):
     }
     return render(request, 'detail.html', context)
 
-def detail_json(request):
-    data_jam = JadwalOperasi.objects.all() 
-    # (user = request.user)
+def jam_json(request):
     data_barang = Barang.objects.all() 
     # (user = request.user)
-    return HttpResponse(serializers.serialize("json", data_jam, data_barang), content_type="application/json")
+    return HttpResponse(serializers.serialize("json", data_barang), content_type="application/json")
 
-@csrf_exempt
-def jam(request):
-    if request.method == 'POST':
-        toko = request.POST.get('toko')
-        hari = request.POST.get('hari')
-        jam_buka = request.POST.get('jam_buka')
-        jam_tutup = request.POST.get('jam_tutup')
-        jam = JadwalOperasi.objects.create(
-            toko = toko, 
-            hari = hari,
-            jam_buka = jam_buka,
-            jam_tutup = jam_tutup,
-            user = request.user)
-        return JsonResponse(
-            {
-                "pk": jam.pk,
-                "fields": {
-                    "toko": jam.toko,
-                    "hari": jam.hari,
-                    "jam_buka": jam.jam_buka,
-                    "jam_tutup": jam.jam_tutup,
-                },
-            },
-        )
-    return HttpResponseBadRequest()
-
-@csrf_exempt
-def barang(request):
-    if request.method == 'POST':
-        toko = request.POST.get('toko')
-        nama = request.POST.get('nama')
-        harga = request.POST.get('harga')
-        deskripsi = request.POST.get('deskripsi')
-        jenis = request.POST.get('jenis')
-        item = Barang.objects.create(
-            toko = toko, 
-            nama = nama,
-            harga = harga,
-            deskripsi = deskripsi,
-            jenis = jenis, 
-            user = request.user)
-        return JsonResponse(
-            {
-                "pk": item.pk,
-                "fields": {
-                    "nama": item.nama,
-                    "harga": item.harga,
-                    "deskripsi": item.deskripsi,
-                    "jenis": item.jenis,
-                },
-            },
-        )
-    return HttpResponseBadRequest()
+def barang_json(request):
+    data_jam = JadwalOperasi.objects.all() 
+    # (user = request.user)
+    return HttpResponse(serializers.serialize("json", data_jam), content_type="application/json")
 
 # @login_required(login_url='.../login/')
 # def review(request):
