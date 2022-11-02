@@ -89,37 +89,35 @@
 
 <script>
   $(document).ready(function(){
-    console.log(2)
       $.get('/detail/jam_json/', function(dataBarang) {
         console.log(dataBarang)
         for (i=0; i < dataBarang.length; i++){
           console.log(1)
-          $(".row1").append(`<div class="card" style="width: 18rem;">
-            <div class="card text-center">
-              <p class="card-text">${dataBarang[i].fields.deskripsi}</p>
-              <p class="card-text"> Harga : ${dataBarang[i].fields.harga}</p>
+          $(".row1").append(`<div class="text">
+            <div class="text-center">
+              <h5>${dataBarang[i].fields.deskripsi} yang dijual dengan harga ${dataBarang[i].fields.harga}</h5>
             </div></div>`)}})});
       $.get('/detail/barang_json/', function(dataJam) {
         console.log(dataJam)
         for (i=0; i < dataJam.length; i++){
-          $(".row2").append(`<div class="card" style="width: 18rem;">
-            <div class="card text-center">
-              <p class="card-text">${dataJam[i].fields.hari}, dari ${dataJam[i].fields.jam_buka} - ${dataJam[i].fields.jam_tutup}</p>
+          $(".row2").append(`<div class="text">
+            <div class="text-center">
+              <h5>${dataJam[i].fields.hari}, dari pukul ${dataJam[i].fields.jam_buka} - ${dataJam[i].fields.jam_tutup}</h5>
             </div></div>`)}});
 </script>
 
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+    <div id="simpleModal" class="modal" tabindex="-1" role="dialog">
+      <div style="text-align:center;">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h2 class="modal-title fs-5" id="exampleModalLabel">Detail</h2>
+            <h2 class="modal-title" id="exampleModalLabel">Detail</h2>
           </div>
           <div class="modal-body">
               <div class="mb-3">
-                <label for="recipient-name" class="col-form-label" >Deskripsi Toko</label>
+                <label for="message-text" class="col-form-label" >Deskripsi Toko</label>
                 <div class = "row1"></div>
               </div>
               <div class="mb-3">
@@ -134,6 +132,18 @@
       </div>
     </div>
     </div>
-  </body>
+</body>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+      window.onload = function () {
+          OpenBootstrapPopup();
+      };
+      function OpenBootstrapPopup() {
+          $("#simpleModal").modal('show');
+      }
+  </script>
 
  {% endblock content %}
