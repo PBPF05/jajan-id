@@ -128,7 +128,7 @@ $(function() {
 
     getMessages(null, lastId, (data) => {
       messages.push(...data);
-      drawChat();
+      drawChat(lastId != messages[messages.length - 1].pk);
     });
   }, 5000);
 });
