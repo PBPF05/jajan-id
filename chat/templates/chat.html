@@ -80,7 +80,7 @@
 
       <form id="chat-form">
         <div class="d-flex flex-row gap-2">
-          <input type="text" name="pesan" class="form-control" placeholder="Message">
+          <input type="text" autocomplete="off" name="pesan" class="form-control" placeholder="Message">
           <input type="hidden" name="cid" value="{{ channel.pk }}" />
           <button type="submit" id="chat-btn" class="btn btn-primary">Send</button>
         <div>
