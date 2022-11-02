@@ -281,9 +281,8 @@
 <script>
     let countSetJadwalCall;
 
-    function refreshPage() {
+    function refreshDetailToko(){
         let htmlString = ``;
-        countSetJadwalCall = 0;
         $.ajax({
             url: "{% url 'dashboard:show_json' %}",
             type: "GET",
@@ -302,10 +301,7 @@
                         <div class="card-body">
                             {% if jadwal is not None %}
                             <p class="fw-bolder">Jadwal Buka:</p>
-                            <p style="margin-bottom: 1rem;">
-                            {% for sch in jadwal %}
-                            {{sch.hari}} : {{sch.jam_buka}} - {{sch.jam_tutup}}<br>
-                            {% endfor %}
+                            <p id = "listJadwalBuka" style="margin-bottom: 1rem;">
                             </p>
                             {% endif %}
                             <button class="btn" id="btnSetJadwal" onclick="detailJadwalToko()">Set Jadwal Toko</button>
@@ -333,8 +329,27 @@
                     </div>`
                     $('#tokoDiv').html(htmlString);
                 }
+            }
+        })    
+    }
 
-                let cards = ``;
+    function refreshJadwal(){
+        let htmlString = ``;
+        $.ajax({
+            url: "{% url 'dashboard:show_jadwal_json' %}",
+            type: "GET",
+            dataType: "json",
+            success: function (res) {
+                for (let item of res) {
+                    htmlString += `${item.fields.hari} : ${item.fields.jam_buka} - ${item.fields.jam_tutup}<br>`
+                    $('#listJadwalBuka').html(htmlString);
+                }
+            }
+        })
+    }
+
+    function refreshBarang(){
+        let cards = ``;
                 $.ajax({
                     url: "{% url 'dashboard:show_barang_json' %}",
                     type: "GET",
@@ -360,9 +375,14 @@
                         }
                     }
                 })
+    }
 
-            }
-        })
+    function refreshPage() {
+        $("#tokoDiv").empty();
+        countSetJadwalCall = 0;
+        refreshDetailToko();
+        refreshJadwal();
+        refreshBarang();
     }
 
     $("#btnBukaTutup").submit(function (e) {
