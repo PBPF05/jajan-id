@@ -1,34 +1,83 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %} {% block meta %}
+<title>Register</title>
+{% endblock meta %} {% block content %}
+<style>
+  .bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+  }
 
-{% block meta %}
-<title>Registrasi Akun</title>
-{% endblock meta %}
+  @media (min-width: 1025px) {
+    .h-custom-2 {
+      height: 100%;
+    }
+  }
+</style>
 
-{% block content %}  
+<body>
+  <section class="vh-100">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6 text-black">
+          <div class="px-5 ms-xl-4">
+            <i
+              class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4"
+              style="color: #709085"
+            ></i>
+          </div>
 
-<div class = "login">
-    
-    <h1>Formulir Registrasi</h1>  
+          <div
+            class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+            <form method="POST" action="" id="register-form"
+                  class="grid grid-cols-1 gap-5 bg-red-200 rounded border-4 border-neutral-500 p-5 m-auto">
+                  {% csrf_token %}
+                  <div>
+                    <p style="font-size: 2.6em;">Register</p>
+                  </div>
+                  <div>
+                    <input style="text-align:center; font-size: 1.2em;" type="text" name="username" placeholder="Username"
+                      class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+                  </div>
+                  <div>
+                    <input style="text-align:center; font-size: 1.2em;" type="text" name="email" placeholder="Email"
+                      class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+                  </div>
+                  <div>
+                    <input style="text-align:center; font-size: 1.2em;" type="password" name="password" placeholder="Password"
+                      class="form-control rounded border-2 border-black-500 hover:border-neutral-900" required />
+                  </div>
+                  <div>
+                    <input style="text-align:center; font-size: 1.2em;" type="password" name="repeat_password"
+                      placeholder="Repeat password" class="form-control rounded border-2 border-black-500 hover:border-neutral-900"
+                      required />
+                  </div>
+                  <div>
+                    <p>Are you a seller?</p>
 
-        <form method="POST" >  
-            {% csrf_token %}  
-            <table>  
-                {{ form.as_table }}  
-                <tr>  
-                    <td></td>
-                    <td><input type="submit" name="submit" value="Daftar"/></td>  
-                </tr>  
-            </table>  
-        </form>
-
-    {% if messages %}  
-        <ul>   
-            {% for message in messages %}  
-                <li>{{ message }}</li>  
-                {% endfor %}  
-        </ul>   
-    {% endif %}
-
-</div>  
+                    <input type="radio" id="no" name="seller_choice" value="yes" required />
+                    <label for="yes">Yes</label>
+                    <input type="radio" id="yes" name="seller_choice" value="no" required />
+                    <label for="no">No</label>
+                  </div>
+                  <div>
+                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded border-2 border-neutral-500"
+                      type="submit" style="font-size: 1.5em;">Register</button>
+                  </div>
+              <p>
+                Already have an account?
+                <a href="{% url 'landing:login' %}" class="link-info"
+                  >Login here</a
+                >
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
 
 {% endblock content %}
