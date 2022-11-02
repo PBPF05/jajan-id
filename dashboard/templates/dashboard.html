@@ -4,6 +4,7 @@
 {% block meta %}
 <title>Dashboard</title>
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="script" href="{% static 'js/dashboard.' %}">
 {% endblock meta %}
 
 {% block content %}
@@ -12,8 +13,9 @@
 </head>
 
 <body>
+    <nav></nav>
     {% if toko is None %}
-    <div class="card position-absolute top-50 start-50 translate-middle" id="cardStoreNone">
+    <div class="card position-relative top-50 start-50 translate-middle" id="cardStoreNone" style="margin-top: 20rem;">
         <div class="card-body text-center">
             <img id="storeOpenIcon" src="../../static/images/store_notexist.png">
             <h3>Halo, {{ nama_pengguna }}</h3>
@@ -279,6 +281,7 @@
     integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" ß
     crossorigin="anonymous"></script>
 <script>
+    
     let countSetJadwalCall;
 
     function refreshDetailToko(){

@@ -9,7 +9,7 @@ import datetime
 from django.contrib import messages
 from django.shortcuts import redirect
 from project_django.middleware import inject_toko
-from .models import User
+from .models import User, Profile
 
 # Create your views here.
 
@@ -23,17 +23,23 @@ def register(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         repeat_password = request.POST.get("repeat_password")
+        is_seller = False
         if (User.objects.filter(username=username) or User.objects.filter(email=email)):
             messages.info(request, "Username or email already taken!")
         elif (password == repeat_password):
             user = User.objects.create_user(username=username, email=email, password=password)
-            if (request.POST.get("seller_choice") == "yes"):
-                Toko.objects.create()
-                inject_toko(user)
-                print("masuk ke sini")
-                request.user.is_seller = True
             user.save()
-            print(request.user.is_seller)
+            if (request.POST.get("seller_choice") == "yes"):
+                # Toko.objects.create()
+                # inject_toko(user  )
+
+                is_seller = True
+            profile = Profile.objects.create(user=user, name=username, email=email, is_seller=is_seller)
+            profile.save()
+
+            print(profile.is_seller)
+            print(profile.user)
+            print(user.profile)
             return redirect("landing:login")
         else:
             messages.info(request, "Password and repeat password is different!")

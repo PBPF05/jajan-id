@@ -1,5 +1,4 @@
 {% load static %}
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   
@@ -23,9 +22,7 @@
       integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
       crossorigin="anonymous"
     ></script>
-
     <link rel="stylesheet" href="{% static 'style/style.css' %}" />
-
     {% block meta %}
     {% endblock meta %}
   </head>
@@ -54,9 +51,11 @@
             <li class="nav-item">
               <a class="nav-link" href="#" >Home</a>
             </li>
+            {% if request.user.profile.is_seller == True %}
             <li class="nav-item">
-              <a class="nav-link" href="#">Dashboard</a>
+              <a class="nav-link" href="/dashboard/">Dashboard</a>
             </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="#">Katalog</a>
             </li>
@@ -110,7 +109,5 @@
 <!-- End of .container -->
   <!-- End Footer -->
   </body>
-
   
 </html>
-

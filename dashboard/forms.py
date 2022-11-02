@@ -24,8 +24,8 @@ class BuatTokoForm(forms.ModelForm):
             'provinsi' : forms.TextInput(attrs={'type' : 'text', 'placeholder' : 'ex: Jawa Barat', 'class' : 'form-control'}),
             'lokasi' : forms.TextInput(attrs={'type' : 'text', 'placeholder' : 'ex: Jl. Akses UI', 'class' : 'form-control'}),
             'deskripsi' : forms.Textarea(attrs={'type' : 'textarea', 'placeholder' : 'Deskripsi', 'class' : 'form-control'}),
-            'range_harga' : forms.Select(choices=Toko.HargaToko),
-            'kondisi' : forms.Select(choices=Toko.KondisiToko)
+            'range_harga' : forms.RadioSelect(choices=Toko.HargaToko, attrs={'class': 'form-check form-check-inline'}),
+            'kondisi' : forms.RadioSelect(choices=Toko.KondisiToko, attrs={'class': 'form-check form-check-inline'})
         }
 
         nama = forms.CharField(label = 'Nama', required = True, widget = widgets['nama'])
@@ -35,18 +35,3 @@ class BuatTokoForm(forms.ModelForm):
         deskripsi = forms.CharField(label = 'Deskripsi', required = True, widget = widgets['deskripsi'])
         range_harga = forms.ChoiceField(label = 'Range Harga', required = True, widget = widgets['range_harga'])
         kondisi = forms.ChoiceField(label = 'Kondisi', required = True, widget = widgets['kondisi'])
-
-# class TambahJadwalForm(forms.ModelForm):
-#     class Meta:
-#         model = JadwalOperasi
-#         fields = ('hari', 'jam_buka', 'jam_tutup')
-
-#         widgets = {
-#             'hari' : forms.Select(choices=JADWAL_CHOICES),
-#             'jam_buka' : forms.NumberInput(attrs={'type' : 'range', 'class' : 'form-control'}),
-#             'jam_tutup' : forms.NumberInput(attrs={'type' : 'range', 'class' : 'form-control'})
-#         }
-
-#         hari = forms.ChoiceField(label='Hari', required=True, widget=widgets['hari'])
-#         jam_buka = forms.IntegerField(label='Jam Buka', required=True, widget=widgets['jam_buka'])
-#         jam_tutup = forms.IntegerField(label='Jam Tutup', required=True, widget=widgets['jam_tutup'])
