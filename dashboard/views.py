@@ -38,6 +38,16 @@ def show_barang_json_byid(request, id):
     data_barang = Barang.objects.filter(toko = data_toko).filter(pk = id)
     return HttpResponse(serializers.serialize("json", data_barang))
 
+def show_jadwal_json(request):
+    data_toko = Toko.objects.get(pk = 3)
+    data_barang = JadwalOperasi.objects.filter(toko = data_toko)
+    return HttpResponse(serializers.serialize("json", data_barang))
+
+def show_jadwal_json_byid(request, id):
+    data_toko = Toko.objects.get(pk = 3)
+    data_barang = JadwalOperasi.objects.filter(toko = data_toko).filter(pk = id)
+    return HttpResponse(serializers.serialize("json", data_barang))
+
 def buka_tutup_toko(request):
     toko = Toko.objects.get(pk = 3)
     if(request.POST):
@@ -134,5 +144,37 @@ def update_barang(request, id):
         'harga': barang.harga, 
         'jenis': barang.jenis,
         'deskripsi': barang.deskripsi
+    }
+    return HttpResponse(b"CREATED", status = 201)
+
+def create_jadwal(request):
+    if(request.POST):
+        hari_buka = request.POST.get('inputHari')
+        jam_buka_toko = request.POST.get('inputJamBuka')
+        jam_tutup_toko = request.POST.get('inputJamTutup')
+        toko_jadwal = Toko.objects.get(pk = 3)
+
+        jadwal = JadwalOperasi(hari = hari_buka, jam_buka = jam_buka_toko, jam_tutup = jam_tutup_toko, toko = toko_jadwal)
+        jadwal.save()
+        return HttpResponse(b"CREATED", status = 201)
+    return HttpResponseNotFound()
+
+def update_jadwal(request, id):
+    hari_buka = request.POST.get('inputEditHari')
+    jam_buka_toko = request.POST.get('inputEditJamBuka')
+    jam_tutup_toko = request.POST.get('inputEditJamTutup')
+    toko_barang = Toko.objects.get(pk = 3)
+
+    jadwal = JadwalOperasi.objects.filter(toko = toko_barang).get(pk=id)
+    jadwal.hari = hari_buka
+    jadwal.jam_buka = jam_buka_toko
+    jadwal.jam_tutup = jam_tutup_toko
+    jadwal.save()
+
+    new_jadwal = {
+        'pk': jadwal.pk,
+        'hari': jadwal.hari, 
+        'jam_buka': jadwal.jam_buka, 
+        'jam_tutup': jadwal.jam_tutup,
     }
     return HttpResponse(b"CREATED", status = 201)

@@ -3,7 +3,7 @@ body{
     /* background: linear-gradient(to right, #858585, #9c9c9c) */
 }
 p{
-    margin-bottom: 0;
+    margin-bottom: 1rem;
 }
 
 #cardStoreNone{
