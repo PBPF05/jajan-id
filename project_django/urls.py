@@ -21,7 +21,7 @@ urlpatterns = [
     path("", include("helloworld.urls")),
     path("", include("landing.urls")),
     path("", include("katalog.urls")),
-    path("", include("detail.urls")),
+    path("detail/", include("detail.urls")),
     path("", include("dashboard.urls")),
     path("", include("chat.urls")),
 ]

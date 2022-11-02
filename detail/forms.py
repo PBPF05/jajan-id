@@ -1,7 +1,7 @@
-# from django import forms
-# from detail.models import Barang
+from django import forms
+from detail.models import ReviewBarang
 
-# class reviewform(forms.ModelForm):
-#     class Meta:
-#         model = Barang
-#         fields = {"review"}
+class reviewform(forms.ModelForm):
+    class Meta:
+        model = ReviewBarang
+        fields = {"comment"}
