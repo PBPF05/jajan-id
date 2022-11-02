@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from detail.models import Barang
 from katalog.models import Toko
 from detail.models import JadwalOperasi
@@ -9,6 +10,7 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from dashboard.forms import BuatTokoForm
 # Create your views here.
 
+# @login_required(login_url='/login/')
 def show_dashboard(request):
     try:
         # tokoUser = Toko.objects.get(pk = request.user.pk)
@@ -26,29 +28,36 @@ def show_dashboard(request):
         return render(request, 'dashboard.html', context)
 
 def show_data_json(request):
+    # data_toko = Toko.objects.filter(pk = request.user.pk)
     data_toko = Toko.objects.filter(pk = 3)
     return HttpResponse(serializers.serialize("json", data_toko))
 
 def show_barang_json(request):
-    data_barang = Barang.objects.filter(toko = 3)
+    # data_toko = Toko.objects.get(pk = request.user.pk)
+    data_toko = Toko.objects.get(pk = 3)
+    data_barang = Barang.objects.filter(toko = data_toko)
     return HttpResponse(serializers.serialize("json", data_barang))
 
 def show_barang_json_byid(request, id):
+    # data_toko = Toko.objects.filter(pk = request.user.pk)
     data_toko = Toko.objects.get(pk = 3)
     data_barang = Barang.objects.filter(toko = data_toko).filter(pk = id)
     return HttpResponse(serializers.serialize("json", data_barang))
 
 def show_jadwal_json(request):
+    # data_toko = Toko.objects.get(pk = request.user.pk)
     data_toko = Toko.objects.get(pk = 3)
     data_barang = JadwalOperasi.objects.filter(toko = data_toko)
     return HttpResponse(serializers.serialize("json", data_barang))
 
 def show_jadwal_json_byid(request, id):
+    # data_toko = Toko.objects.filter(pk = request.user.pk)
     data_toko = Toko.objects.get(pk = 3)
     data_barang = JadwalOperasi.objects.filter(toko = data_toko).filter(pk = id)
     return HttpResponse(serializers.serialize("json", data_barang))
 
 def buka_tutup_toko(request):
+    # toko = Toko.objects.get(pk = request.user.pk)
     toko = Toko.objects.get(pk = 3)
     if(request.POST):
         if(toko.buka):
@@ -65,6 +74,7 @@ def quick_add_Barang(request):
         harga_barang = request.POST.get('inputHarga')
         jenis_barang = request.POST.get('inputJenis')
         desc_barang = request.POST.get('inputDeskripsi')
+        # toko_barang = Toko.objects.get(pk = request.user.pk)
         toko_barang = Toko.objects.get(pk = 3)
 
         new_barang = Barang(nama = nama_barang, harga = harga_barang, jenis = jenis_barang, 
@@ -107,6 +117,7 @@ def update_toko(request):
     lokasi_toko = request.POST.get('inputLokasi')
     desc_barang = request.POST.get('inputDeskripsi')
 
+    # toko = Toko.objects.get(pk = request.user.pk)
     toko = Toko.objects.get(pk = 3)
     toko.nama = nama_toko
     toko.kota = kota_toko
@@ -129,6 +140,7 @@ def update_barang(request, id):
     harga_barang = request.POST.get('inputEditHarga')
     jenis_barang = request.POST.get('inputEditJenis')
     desc_barang = request.POST.get('inputEditDeskripsi')
+    # toko_barang = Toko.objects.get(pk = request.user.pk)
     toko_barang = Toko.objects.get(pk = 3)
 
     barang = Barang.objects.filter(pk = id).get(toko = toko_barang)
@@ -152,6 +164,7 @@ def create_jadwal(request):
         hari_buka = request.POST.get('inputHari')
         jam_buka_toko = request.POST.get('inputJamBuka')
         jam_tutup_toko = request.POST.get('inputJamTutup')
+        # toko_jadwal = Toko.objects.get(pk = request.user.pk)
         toko_jadwal = Toko.objects.get(pk = 3)
 
         jadwal = JadwalOperasi(hari = hari_buka, jam_buka = jam_buka_toko, jam_tutup = jam_tutup_toko, toko = toko_jadwal)
@@ -163,6 +176,7 @@ def update_jadwal(request, id):
     hari_buka = request.POST.get('inputEditHari')
     jam_buka_toko = request.POST.get('inputEditJamBuka')
     jam_tutup_toko = request.POST.get('inputEditJamTutup')
+    # toko_barang = Toko.objects.get(pk = request.user.pk)
     toko_barang = Toko.objects.get(pk = 3)
 
     jadwal = JadwalOperasi.objects.filter(toko = toko_barang).get(pk=id)
