@@ -95,11 +95,13 @@ def delete_barang(request, id):
     return HttpResponseNotFound()
 
 def create_toko(request):
+    user = request.user
     if(request.POST):
-        form = BuatTokoForm(request.POST, request.FILES)
-        print(request.FILES)
+        form = BuatTokoForm(request.POST, instance=request.user)
         if form.is_valid:
-            form.save()
+            toko = form.save(commit=False)
+            toko.pemilik = user
+            toko.save()
         return redirect('dashboard:show_dashboard')
     return render(request, 'create-toko.html', {'form' : BuatTokoForm})
 
