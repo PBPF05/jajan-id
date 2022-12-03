@@ -2,10 +2,8 @@
 
 {% block meta %}
     <style>
-        *{
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
+        body {
+            background-color: #fded23;
         }
         h1, h5{
             text-align: center;
@@ -38,14 +36,15 @@
             color: #ffffff;
         }
         .modal-header{
-            background: #fffbc7;
+            background: #ffb942;
         }
         .modal-body{
-            background: #fffbc7;
+            background: #ffb942;
         }
         .modal-footer{
-            background: #fffbc7;
+            background: #ffb942;
         }
+
     </style>
 {% endblock meta %}
 
@@ -71,7 +70,7 @@
               </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn1 btn-secondary" data-bs-dismiss="modal">OK</button>
+            <a href="javascript:history.back()">OK</a>
           </div>
         </div>
       </div>

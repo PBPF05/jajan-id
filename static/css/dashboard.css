@@ -15,6 +15,12 @@ body{
 
 #containerFormBuatToko button{
     margin: 0.5rem;
+    display: inline;
+}
+
+#containerFormBuatToko form button{
+    display:inline;
+    margin: 0.5rem;
 }
 
 p{
@@ -81,6 +87,7 @@ p{
     background: #ffb942;
     margin: 2rem 0 0 0;
     padding-top: 2rem;
+    padding-bottom: 2rem;
     box-shadow: 0 0 0 2px;
     border-radius: 20px 20px 0 0;
 }

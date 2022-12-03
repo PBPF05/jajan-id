@@ -99,9 +99,9 @@ def create_toko(request):
     if(request.POST):
         form = BuatTokoForm(request.POST, instance=request.user)
         if form.is_valid:
-            toko = form.save(commit=False)
-            toko.pemilik = user
-            toko.save()
+            o = form.save(commit=False)
+            o.pemilik = request.user
+            o.save()
         return redirect('dashboard:show_dashboard')
     return render(request, 'create-toko.html', {'form' : BuatTokoForm})
 

@@ -14,8 +14,8 @@
         <form class="form" method="POST" action="{% url 'dashboard:create_toko' %}" enctype="multipart/form-data">
         {% csrf_token %} 
         {{form}}
-        </form>
         <button class="btn btn-light">Buat Toko</button>
+        </form>
         <button class="btn btn-danger" onclick="location.href='/dashboard/'">Kembali</button>
     </div>
 </body>
