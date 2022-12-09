@@ -5,7 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from django.forms.models import model_to_dict
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.template.defaulttags import register
 from django.views.decorators.csrf import csrf_exempt
@@ -31,6 +33,7 @@ def generate_sidebar(request: HttpRequest) -> dict:
         Channel.objects.filter(Q(user=request.user.pk) | Q(toko=request.user.pk))
         .order_by("-last_timestamp")
         .all()
+        .prefetch_related("user", "toko")
     )
 
     last_messages: Dict[int, str] = {}
@@ -61,6 +64,22 @@ def render_chat(request: HttpRequest, **kwagrs):
 @login_required()
 def index(request: HttpRequest):
     return render_chat(request)
+
+
+@login_required()
+def get_chatlist(request: HttpRequest):
+    res = generate_sidebar(request)
+    actual_channels = []
+    for chan in res["channels"]:
+        obj = {
+            **model_to_dict(chan),
+            "user": model_to_dict(chan.user),
+            "toko": model_to_dict(chan.toko),
+            "is_toko": chan.toko.pk == request.user.pk
+        }
+        actual_channels.append(obj)
+    res["channels"] = actual_channels
+    return JsonResponse(res)
 
 
 @login_required()
