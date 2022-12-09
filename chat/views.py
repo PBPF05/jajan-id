@@ -1,3 +1,4 @@
+import json
 from typing import Any, Dict
 
 from django.contrib import messages
@@ -163,3 +164,28 @@ def send_message(request: HttpRequest):
     Pesan(pesan=data.cleaned_data["pesan"], channel=channel, pengirim=role).save()
     channel.save()
     return HttpResponse("OK", status=200)
+
+@login_required()
+@csrf_exempt
+def send_message_json(request: HttpRequest):
+    if request.method != "POST":
+        return HttpResponse("Not allowed", status=405)
+
+    data = json.loads(request.body)
+
+    try:
+        channel = Channel.objects.get(pk=data["cid"])
+    except ObjectDoesNotExist:
+        return HttpResponse("Not found", status=404)
+
+    if channel.user.pk != request.user.pk and channel.toko.pk != request.user.pk:
+        return HttpResponse("You do not have access to this channel", status=400)
+
+    role = "pengirim"
+    if channel.toko.pk != request.user.pk:
+        role = "user"
+
+    Pesan(pesan=data["pesan"], channel=channel, pengirim=role).save()
+    channel.save()
+    return JsonResponse({"message":"OK"}, status=200)
+

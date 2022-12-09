@@ -7,11 +7,13 @@ from chat.views import (
     get_messages,
     index,
     send_message,
+    send_message_json
 )
 
 app_name = "chat"
 
 urlpatterns = [
+    path("messages/json/send", send_message_json),
     path("messages/send", send_message),
     path("messages/<int:cid>", get_messages),
     path("user/<int:uid>", chat_user),
