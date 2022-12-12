@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from katalog.models import Toko
+from katalog.models import *
 from django.http.response import HttpResponse, HttpResponseNotFound
 from django.http import HttpResponseRedirect
 from django.core import serializers
@@ -30,6 +30,13 @@ def show_json_search(request, nama_toko):
     return HttpResponse(serializers.serialize('json', status))
 
 @csrf_exempt
-def show_json_search_flutter(request):
-    status = Toko.objects.filter(nama__icontains=request.POST.get('nama_toko'))
+def add_json_search_flutter(request):
+    data = Toko.objects.filter(nama__icontains=request.POST.get('nama_toko'))
+    for i in serializers.serialize('json', data):
+        TokoUntukSearchFlutter.objects.create(**i)
     return JsonResponse({'message': 'success'})
+
+def show_json_search_flutter(request):
+    datakatalog = TokoUntukSearchFlutter.objects.all()
+    TokoUntukSearchFlutter.objects.all().delete()
+    return HttpResponse(serializers.serialize('json', datakatalog))
