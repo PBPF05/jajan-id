@@ -31,6 +31,7 @@ def show_json_search(request, nama_toko):
 
 @csrf_exempt
 def add_json_search_flutter(request):
+    TokoUntukSearchFlutter.objects.all().delete()
     data = Toko.objects.filter(nama__icontains=request.POST.get('nama_toko'))
     for i in serializers.serialize('json', data):
         TokoUntukSearchFlutter.objects.create(**i)
@@ -38,5 +39,5 @@ def add_json_search_flutter(request):
 
 def show_json_search_flutter(request):
     datakatalog = TokoUntukSearchFlutter.objects.all()
-    TokoUntukSearchFlutter.objects.all().delete()
+    
     return HttpResponse(serializers.serialize('json', datakatalog))
