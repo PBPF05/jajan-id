@@ -5,7 +5,7 @@ from django.http.response import HttpResponse, HttpResponseNotFound
 from django.http import HttpResponseRedirect
 from django.core import serializers
 import json
-
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 # @login_required(login_url="../login")
@@ -28,3 +28,8 @@ def show_json(request):
 def show_json_search(request, nama_toko):
     status = Toko.objects.filter(nama__icontains=nama_toko)
     return HttpResponse(serializers.serialize('json', status))
+
+@csrf_exempt
+def show_json_search_flutter(request):
+    status = Toko.objects.filter(nama__icontains=request.POST.get('nama_toko'))
+    return JsonResponse({'message': 'success'})
