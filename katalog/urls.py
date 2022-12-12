@@ -8,7 +8,5 @@ urlpatterns = [
     # TODO: Routing
     path("", show_katalog, name="katalog"),  # sesuaikan dengan nama fungsi yang dibuat
     path("json/", show_json, name="json"),  # sesuaikan dengan nama fungsi yang dibuat
-    path(
-        "json/<str:nama_toko>/", show_json_search, name="json"
-    ),  # sesuaikan dengan nama fungsi yang dibuat
+    path("json/<str:nama_toko>/", show_json_search, name="json"),  # sesuaikan dengan nama fungsi yang dibuat
 ]
