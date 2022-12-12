@@ -36,7 +36,7 @@ def add_json_search_flutter(request, nama_toko):
     for i in json.loads(serializers.serialize('json', data)):
 
         
-        TokoUntukSearchFlutter(nama= i['nama'], kota= i['kota'], provinsi= i['provinsi'], deskripsi= i['deskripsi'], range_harga= i['range_harga'], buka= i['buka'], kondisi= i['kondisi']).save()
+        TokoUntukSearchFlutter(nama= i['fields']['nama'], kota= i['fields']['kota'], provinsi= i['fields']['provinsi'], deskripsi= i['fields']['deskripsi'], range_harga= i['fields']['range_harga'], buka= i['fields']['buka'], kondisi= i['fields']['kondisi']).save()
     return HttpResponse(serializers.serialize('json', TokoUntukSearchFlutter.objects.all()))
 
 
