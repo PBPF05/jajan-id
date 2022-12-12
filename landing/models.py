@@ -11,4 +11,3 @@ class Profile(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     is_seller = models.BooleanField(default=False)
-    
