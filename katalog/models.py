@@ -42,4 +42,3 @@ class TokoUntukSearchFlutter(models.Model):
     range_harga = models.CharField(max_length=6, choices=HargaToko.choices)
     buka = models.BooleanField(default=True)
     kondisi = models.CharField(max_length=6, choices=KondisiToko.choices)
-    pemilik = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
