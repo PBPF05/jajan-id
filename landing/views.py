@@ -2,6 +2,7 @@ from django.shortcuts import  render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
@@ -13,6 +14,7 @@ from .models import User, Profile
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt    
 import json
+from katalog.models import Toko
 
 # Create your views here.
 
@@ -90,6 +92,10 @@ def login_flutter(request):
     if request.method == 'POST':
         user = authenticate(username=username, password=password)
         temp = User.objects.get(username=username)
+        try:
+            toko = Toko.objects.get(pk=request.user.pk)
+        except:
+            toko = None
         print(temp.id)
         print("AUTENTHICATE")
         print(username)
@@ -100,7 +106,9 @@ def login_flutter(request):
                 "status": True,
                 "username": request.user.username,
                 "id": temp.id,
-                "message": "Successfully Logged In!"
+                "message": "Successfully Logged In!",
+                "user": model_to_dict(request.user),
+                "toko": model_to_dict(toko) if toko else None,
             }, status=200)
 
         else:
