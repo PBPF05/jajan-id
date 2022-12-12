@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.forms.models import model_to_dict
+from katalog.models import Toko
 
 @csrf_exempt
 def login(request):
@@ -9,12 +11,18 @@ def login(request):
     password = request.POST['password']
     user = authenticate(username=username, password=password)
     if user is not None:
+        try:
+            toko = Toko.objects.get(pk=request.user.pk)
+        except:
+            toko = None
         if user.is_active:
             auth_login(request, user)
             # Redirect to a success page.
             return JsonResponse({
               "status": True,
-              "message": "Successfully Logged In!"
+              "message": "Successfully Logged In!",
+              "user": model_to_dict(request.user),
+              "toko": model_to_dict(toko) if toko else None,
               # Insert any extra data if you want to pass data to Flutter
             }, status=200)
         else:
