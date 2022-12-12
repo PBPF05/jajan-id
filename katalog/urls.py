@@ -8,7 +8,7 @@ urlpatterns = [
     # TODO: Routing
     path("json_searched_flutter/", show_json_search_flutter, name="show_json_search_flutter"),
     path(
-        "json_flutter/", add_json_search_flutter, name="show_json_search_flutter"
+        "json_flutter/<str:nama_toko>/", add_json_search_flutter, name="show_json_search_flutter"
     ),
     path("", show_katalog, name="katalog"),  # sesuaikan dengan nama fungsi yang dibuat
     path("json/", show_json, name="json"),  # sesuaikan dengan nama fungsi yang dibuat
