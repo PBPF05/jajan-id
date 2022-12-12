@@ -34,7 +34,7 @@ def add_json_search_flutter(request, nama_toko):
     TokoUntukSearchFlutter.objects.all().delete()
     data = Toko.objects.filter(nama__icontains=nama_toko)
     for i in serializers.serialize('json', data):
-        TokoUntukSearchFlutter.objects.create(**i)
+        TokoUntukSearchFlutter(**i).save()
     return HttpResponse(serializers.serialize('json', TokoUntukSearchFlutter.objects.all()))
 
 
