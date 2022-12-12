@@ -8,7 +8,7 @@
 
 ## Situs
 
-Situs dapat dilihat [di sini](https://jajanid.herokuapp.com/)
+Situs dapat dilihat [di sini](https://jajan-id.up.railway.app/)
 
 ## Latar Belakang
 
